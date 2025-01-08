@@ -13,7 +13,13 @@ langchain-openai = "^0.2.14"
 python-dotenv = "^1.0.1"
 langchain-anthropic = "^0.3.1"
 langchain-google-genai = "^2.0.8"
-
+langchain-community = "^0.3.14"
+chroma = "^0.2.0"
+beautifulsoup4 = "^4.12.3"
+html2text = "^2024.2.26"
+langchain-chroma = "^0.2.0"
+chromadb = "^0.5.0"
+langchain-google-community = "^2.0.4"
 
 [build-system]
 requires = ["poetry-core"]

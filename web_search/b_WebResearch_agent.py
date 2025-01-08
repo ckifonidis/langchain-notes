@@ -28,16 +28,30 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.agents import AgentExecutor, create_react_agent
 from langchain_core.tools import Tool
 
-
 load_dotenv()
 
 def get_current_time(*args, **kwargs):
     import datetime
     return datetime.datetime.now().strftime("%H:%M:%S")
 
+
+def format_results(document):
+    return {
+        "content": document.page_content,
+        "title": document.metadata["title"],
+        "url": document.metadata["source"]
+    }
+def search_the_web(query:str) -> str:
+    from a_WebResearchRetriever import simple_search 
+    results = simple_search(query)
+    results = [format_results(result) for result in results]
+    return format_results(results)
+
 tools=[
     Tool(name="get_current_time", func=get_current_time,
           description="Get the current time in the format 'HH:MM:SS'"),
+    Tool(name="search_the_web", func=search_the_web,
+           description="Search the web for any information needed and get back a list of objects of {content, title, url} for each result")
 ]
 
 #model = ChatOpenAI( model="gpt-4o" )
@@ -62,7 +76,8 @@ agent_executor = AgentExecutor.from_agent_and_tools(
 if __name__ == "__main__":  
 
     # Run the agent with a test query
-    response = agent_executor.invoke({"input": "What is the current time in the format 'HH:MM:SS'."})
+    response = agent_executor.invoke({"input": "What are the latest news? Before you respond translate in Greek."})
+    #response = agent_executor.invoke({"input": "What is the current time in Paris in the format 'HH:MM:SS'."})
 
     # Print the response from the agent
     print("response:", response)
