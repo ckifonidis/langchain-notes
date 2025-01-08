@@ -45,7 +45,7 @@ def search_the_web(query:str) -> str:
     from a_WebResearchRetriever import simple_search 
     results = simple_search(query)
     results = [format_results(result) for result in results]
-    return format_results(results)
+    return results
 
 tools=[
     Tool(name="get_current_time", func=get_current_time,
@@ -76,8 +76,18 @@ agent_executor = AgentExecutor.from_agent_and_tools(
 if __name__ == "__main__":  
 
     # Run the agent with a test query
-    response = agent_executor.invoke({"input": "What are the latest news? Before you respond translate in Greek."})
-    #response = agent_executor.invoke({"input": "What is the current time in Paris in the format 'HH:MM:SS'."})
+    #response = agent_executor.invoke({"input": "What are the latest news? Respond in Greek."})
+    #print("response:", response)
 
-    # Print the response from the agent
-    print("response:", response)
+    while True:
+        q = input("Ask a question: ")
+        if q == "exit":
+            break
+        # if q == "print":   
+        #     print_messages(messages)
+        #     continue
+
+        response = agent_executor.invoke({"input": q})
+
+        print(response)
+
