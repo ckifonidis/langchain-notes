@@ -19,6 +19,7 @@ The json schema must be as following:
 where filename is the filename you must create and code is the code you have to put in the file.
 
 I want you to return just the json representation, nothing else.
+Do not wrap the JSON in any code block formatting such as triple backticks.
 You must be carful to maintain the indentation of the code, and avoid to add
 extra spaces or new lines.
 

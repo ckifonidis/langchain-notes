@@ -32,6 +32,7 @@ Get the text i give you.
     Never combine classes on a single file even if it is the same entity
     The data model is the text i give you
     Do not omit any code
+    Do not wrap the code in any code block formatting such as triple backticks.
 
     the text is here: {types_description}
 ```

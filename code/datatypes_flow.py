@@ -7,10 +7,10 @@ from langchain.chains.llm import LLMChain
 from langchain.chains.sequential import SequentialChain
 from extract_prompt_blocks import get_doc_splitter, get_types_writer, get_code_saver
 from dotenv import load_dotenv
+from create_files_from_json import create_files_from_json
 
 load_dotenv()
 
-model = ChatOpenAI(model = "gpt-4o")
 model = ChatOpenAI(
     model="deepseek-chat",
     api_key=os.getenv("DEEPSEEK_API_KEY"),
@@ -42,3 +42,4 @@ result = write_code.invoke(
 print(result["types_description"])
 print(result["code"])
 print(result["code_json"])
+create_files_from_json(result["code_json"], "code/generated")
