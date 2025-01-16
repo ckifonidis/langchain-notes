@@ -7,18 +7,20 @@ The `extract_prompt_blocks` function extracts named prompt blocks from markdown 
 
 ### Name Block Pattern
 ```python
-r'```name\n(.*?)\n```'
+r'```name[\s\S]*?\n(.*?)\n```'
 ```
 - Matches markdown code blocks tagged with "name"
 - Captures the content between the code block markers
+- Uses [\s\S]*? to match any characters (including newlines) before the content
 - Uses non-greedy matching to capture only the name content
 
 ### Prompt Content Pattern  
 ```python
-r'```prompt\n(.*?)\n```'
+r'```prompt[\s\S]*?\n(.*?)\n```'
 ```
 - Matches markdown code blocks tagged with "prompt"
 - Captures the content between the code block markers
+- Uses [\s\S]*? to match any characters (including newlines) before the content
 - Uses non-greedy matching to capture only the prompt content
 
 ## Input Format

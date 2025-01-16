@@ -18,15 +18,18 @@ def extract_prompt_blocks(filename: str) -> PromptInfo:
         text = file.read()
         
     # Regex pattern to capture name and content blocks
-    pattern = r'```name\s*([\s\S]*?)```\s*```prompt\s*([\s\S]*?)```'
-    match = re.search(pattern, text)
+    name_pattern = r'```name[\s\S]*?\n(.*?)\n```'
+    prompt_pattern = r'```prompt[\s\S]*?\n(.*?)\n```'
     
-    if not match:
+    name_match = re.search(name_pattern, text)
+    prompt_match = re.search(prompt_pattern, text)
+    
+    if not name_match or not prompt_match:
         raise ValueError("Could not find valid prompt blocks in the file")
         
     return PromptInfo(
-        name=match.group(1).strip(),
-        content=match.group(2).strip()
+        name=name_match.group(1).strip(),
+        content=prompt_match.group(1).strip()
     )
 
 import os
@@ -41,6 +44,7 @@ def get_promt_template(prompt_name:str, input_variables:list[str] ) -> PromptTem
     return template 
 
 get_doc_splitter = lambda : get_promt_template("doc_splitter", ["text","section"])
+get_types_writer = lambda : get_promt_template("types_writer", ["types_description"])
 
 # Example usage
 if __name__ == "__main__":
