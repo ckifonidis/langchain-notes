@@ -18,8 +18,8 @@ def extract_prompt_blocks(filename: str) -> PromptInfo:
         text = file.read()
         
     # Regex pattern to capture name and content blocks
-    name_pattern = r'```name[\s\S]*?\n(.*?)\n```'
-    prompt_pattern = r'```prompt[\s\S]*?\n(.*?)\n```'
+    name_pattern = r'```name\s*\n([\s\S]*?)\n```'
+    prompt_pattern = r'```prompt\s*\n([\s\S]*?)\n```'
     
     name_match = re.search(name_pattern, text)
     prompt_match = re.search(prompt_pattern, text)
@@ -44,7 +44,8 @@ def get_promt_template(prompt_name:str, input_variables:list[str] ) -> PromptTem
     return template 
 
 get_doc_splitter = lambda : get_promt_template("doc_splitter", ["text","section"])
-get_types_writer = lambda : get_promt_template("types_writer", ["types_description"])
+get_types_writer = lambda : get_promt_template("types_writer", ["types_description", "projectname"])
+get_code_saver = lambda : get_promt_template("code_saver", ["code"])
 
 # Example usage
 if __name__ == "__main__":
