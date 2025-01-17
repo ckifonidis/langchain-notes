@@ -225,8 +225,12 @@ poetry add pytest --group dev
 # Install dependencies
 poetry install
 
-# Activate virtual environment
+# Activate the virtual environment (for Poetry 1.x versions)
 poetry shell
+
+# For Poetry 2.0.0+ (alternative method)
+# Use this command to activate the environment in the current shell session
+eval $(poetry env activate)
 ```
 
 Let me know if you need help with any specific Poetry configurations or encounter any issues!
@@ -234,71 +238,102 @@ Let me know if you need help with any specific Poetry configurations or encounte
 ## run my first python program via Poetry in WSL
 I'll help you run your first python program via Poetry in WSL. Here's the recommended steps:
 
-1. Create a directory for your projects:
+1. **Create a directory for your projects:**
 ```bash
 cd ~
-mkdir projects
+mkdir -p ~/projects
+cd ~/projects
 ```
 
-2. Create within the projects directory a new helloworld-project
+2. **Create a new project within the projects directory:**
 ```bash
 poetry new helloworld-project
 ```
 
-3. Initialize poetry for the new project (helloworld-project)
-```bash
-poetry init
-```
-
-4. Select the following options for your pyproject.toml config
-a) Package name [projects]: projects
-b) Version [0.1.0]:
-c) Author [None, n to skip]:  n
-d) License []:
-e) Compatible Python versions [>=3.12]:  3.12
-f) Would you like to define your main dependencies interactively? (yes/no) [yes]
-g) Package to add or search for (leave blank to skip):
-h) Would you like to define your development dependencies interactively? (yes/no) [yes]
-i) Package to add or search for (leave blank to skip):
-j) Do you confirm generation? (yes/no) [yes]
-
-5. Move to the helloworld-project folder created
+3. **Move to the newly created project directory:**
 ```bash
 cd helloworld-project
 ```
 
-6. Install dependencies
+4. **Verify the project structure:**
+Use the `ls` command to see the files and folders created by Poetry:
+```bash
+ls -R
+```
+Output:
+```
+.:
+helloworld_project  pyproject.toml  tests
+./helloworld_project:
+__init__.py
+./tests:
+__init__.py  test_helloworld_project.py
+```
+
+5. **Install dependencies:**
+Since `poetry new` already initialized the project with a `pyproject.toml`, just run:
 ```bash
 poetry install
 ```
 
-7. Create an empty main.py file within helloworld-project 
+6. **Create an empty main.py file within helloworld-project:**
 ```bash
 touch helloworld_project/main.py
 ```
-
-8. Open main.py file 
-a) Open file either in bash
+7. **Open main.py file:**
+   1. Open file either in bash
 ```bash
 nano helloworld_project/main.py
 ```
-b) Or Open file in VS Code
+   2. Or Open file in VS Code
 ```bash
 code .
 ```
 
-9. Add the following code within main.py either in bash or VS Code
-```bash
+8. **Write your "Hello, World!" Python program in `main.py` either in bash or VS Code:**
+```python
 def main():
     print("Hello, World!")
-
 if __name__ == "__main__":
     main()
 ```
 
-10. Save either in bash or VS Code
+9.  **Save either in bash or VS Code**
 
-11. Run the command via Poetry
+10.  **Run your program via Poetry:**
 ```bash
 poetry run python helloworld_project/main.py
 ```
+Output:
+```
+Hello, World!
+```
+
+---
+
+### **Quick Note: `poetry new` vs `poetry init`**
+
+| Feature               | `poetry new`                         | `poetry init`                    |
+|-----------------------|--------------------------------------|----------------------------------|
+| **Purpose**           | Creates a full project structure and initializes Poetry in one step. | Only initializes Poetry (creates pyproject.toml) in an existing directory. |
+| **Creates `pyproject.toml`** | ✅ Yes                           | ✅ Yes                           |
+| **Creates folders and files** | ✅ Includes `tests/` and `__init__.py`. | ❌ Only creates `pyproject.toml`. |
+| **Interactive prompts** | ❌ No                            | ✅ Asks about dependencies, Python version, etc. |
+
+---
+
+### **What `poetry init` Does**
+When you run `poetry init`, it interactively configures your `pyproject.toml` file. Here are the prompts you’ll typically encounter:
+
+a) **Package name** (e.g., `projects`): Enter the name of your project.  
+b) **Version** (default is `[0.1.0]`): Specify the version of your project.  
+c) **Author** (e.g., `None, n to skip`): Add an author name or skip by typing `n`.  
+d) **License** (default is `[]`): Enter a license for your project.  
+e) **Compatible Python versions** (e.g., `[>=3.12]`): Specify the Python versions your project supports.  
+f) **Define main dependencies interactively?** (yes/no): Choose whether to add main dependencies during setup.  
+g) **Package to add or search for** (leave blank to skip): Add specific dependencies or skip.  
+h) **Define development dependencies interactively?** (yes/no): Choose whether to add dev dependencies during setup.  
+i) **Package to add or search for** (leave blank to skip): Add specific dev dependencies or skip.  
+j) **Confirm generation?** (yes/no): Confirm and generate the `pyproject.toml` file.
+
+This is useful when initializing Poetry in an **existing directory** or customizing project setup interactively. Use **`poetry init`** instead of `poetry new` when you don’t need Poetry to create the folder structure for you.
