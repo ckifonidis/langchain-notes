@@ -1,5 +1,9 @@
 # Prompt Block Extractor Documentation
 
+## ToDo: 
+- ensure handling of comments instructions, sample data etc 
+
+
 ## Overview
 The `extract_prompt_blocks` function extracts named prompt blocks from markdown files using regular expressions. It looks for specially formatted code blocks containing prompt names and content.
 
