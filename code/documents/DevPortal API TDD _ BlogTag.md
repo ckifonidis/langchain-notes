@@ -2,8 +2,6 @@
 
 ## Document Version: 1.0
 
-# ![][image1]
-
 # 
 
 Section Headers \*\*  
@@ -23,9 +21,18 @@ Each API request is wrapped in a Request object and has its payload \- mentioned
 
 **Example Request**
 
-``` json
-{    "header": {        "ID": "{{$guid}}",        "application": "03FC0B90-DFAD-11EE-8D86-0800200C9A66",        "bank": "NBG",
-        "UserId": "{{$user_guid}}"    },    "payload": {}}
+```json
+
+{    
+   "header": 
+   {        
+      "ID": "{{$guid}}",        
+      "application": "03FC0B90-DFAD-11EE-8D86-0800200C9A66",        
+      "bank": "NBG",        
+      "UserId": "{{$user_guid}}"    
+   },    
+   "payload": {}
+}
 ```
 
 * request.header.ID is a new GUID for each request. This way the request can be tracked down in the future.  

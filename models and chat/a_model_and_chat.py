@@ -45,6 +45,11 @@ while True:
     if q == "print":   
         print_messages(messages)
         continue
+    if q== "reset":
+        messages = [
+            SystemMessage("You are a helpfull assistant, to help me answer questions"),
+        ]
+        continue
 
     messages.append(HumanMessage(q))
     a = model.invoke(messages)
