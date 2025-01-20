@@ -3,7 +3,7 @@ name = "langchain-notes"
 version = "0.1.0"
 description = ""
 authors = ["BikS <giorgos.marinos@gmail.com>"]
-readme = "README.md"
+readme = "tools-setup/README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.13"
