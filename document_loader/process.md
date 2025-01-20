@@ -1,7 +1,7 @@
 # PDF RAG System Features
 
 ## PDF Document Processing
-- Loads single or multiple PDFs
+- Loads single PDF
 - Chunks text with configurable size and overlap
 - Maintains document metadata
 
