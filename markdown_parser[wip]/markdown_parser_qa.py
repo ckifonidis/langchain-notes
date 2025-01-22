@@ -2,6 +2,7 @@ from typing import List, Dict, Optional
 from langchain_community.document_loaders import UnstructuredMarkdownLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
+from langchain_core.documents import Document
 from langchain.schema import Document
 from langchain_core.runnables import RunnablePassthrough
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
@@ -116,14 +117,13 @@ class MarkdownRAGProcessor:
         all_documents = []
         self.process_other_files(directory)
         # Process each markdown file
-        print(os.path.join(directory, '*.md'))
-        for file_path in glob.glob(os.path.join(directory, '*.md')):
+        for file_path in Path(directory).glob('*.md'):
             try:
                 documents = self.parse_markdown_with_metadata(file_path)
                 all_documents.extend(documents)
             except Exception as e:
                 print(f"Error processing {file_path}: {str(e)}")
-        
+
         proccessed_docs = []
         # Split text into manageable chunks
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
@@ -131,18 +131,23 @@ class MarkdownRAGProcessor:
         for doc in all_documents:
             chunks = text_splitter.split_text(doc["content"])
             for chunk in chunks:
-                proccessed_docs.append({"page_content": chunk, "metadata": doc["metadata"]})     
+                proccessed_docs.append(Document(
+                                    page_content=chunk,
+                                    metadata=doc["metadata"]
+                                )
+                )
+  
         return proccessed_docs
     
     def build_vectorstore(self):
         """
         Build the vector store from processed documents.
         """
-        documents = self.process_markdown_directory('markdown_parser/docs')
-        
+        documents = self.process_markdown_directory('markdown_parser[wip]/docs')
+
         # Create Chroma vectorstore
         self.vectorstore = FAISS.from_documents(
-                documents=self.docs_processed,
+                documents=documents,
                 embedding=self.embeddings
             )
         
@@ -195,14 +200,14 @@ class MarkdownRAGProcessor:
         Save the vector store to disk.
         """
         if self.vectorstore:
-            self.vectorstore.persist()
+            self.vectorstore.save_local("faiss_index")
             
     def load_vectorstore(self):
         """
         Load the vector store from disk.
         """
-        self.vectorstore = FAISS(
-            persist_directory="./faiss_db",
+        self.vectorstore = FAISS.load_local(
+            persist_directory="faiss_index",
             embedding_function=self.embeddings
         )
 
@@ -221,9 +226,11 @@ if __name__ == "__main__":
     # Create RAG chain
     rag_chain = processor.create_rag_chain()
     
-    # Example question
-    question = "What are the key features of our product?"
-    
-    # Get response
-    response = rag_chain.invoke(question)
-    print(response)
+    print("\nAsking questions about the document:")
+    while True:
+        q = input("Ask a question: ")
+        if q == "exit":
+            break
+        else:
+            answer = rag_chain.invoke(q)
+            print(f"A: {answer.content }")
