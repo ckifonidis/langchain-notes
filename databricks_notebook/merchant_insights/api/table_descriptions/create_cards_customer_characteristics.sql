@@ -1,0 +1,25 @@
+CREATE TABLE bdprod.merchant_promotion_analytical.cards_customer_characteristics (
+  par_ym INT,
+  customer_id STRING,
+  age INT,
+  home_location STRING,
+  home_municipality STRING,
+  home_regional_unit STRING,
+  home_region STRING,
+  work_location STRING,
+  work_municipality STRING,
+  work_regional_unit STRING,
+  work_region STRING,
+  gender STRING,
+  occupation STRING,
+  annual_income DECIMAL(15,2),
+  nbg_segment STRING,
+  sms_ind BOOLEAN,
+  email_ind BOOLEAN,
+  addr_ind BOOLEAN,
+  memberships ARRAY<STRING>,
+  ibank_ind BOOLEAN,
+  shopping_interests STRING,
+  age_range_cat INT)
+USING delta
+PARTITIONED BY (par_ym, age_range_cat);

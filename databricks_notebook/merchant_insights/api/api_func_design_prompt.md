@@ -21,11 +21,11 @@ Under the scope of the functional specification document are
 
 Ignore all follow up commands.
 
-The location of these notebooks are under the databricks/notebooks/merchant_promotion_insights directory.
+The notebook content is {notebook_content}
 
 ## Source table descriptions
 
-The table descriptions are under databricks/create-stmnts.
+The source table descriptions are {source_table_descriptions}
 
 # Output
 The functional specification document will be provided in a markdown file. 
@@ -36,8 +36,7 @@ The document must include the following sections:
 3. Intermediate tables, if CTEs are created
 4. Target tables
 
-The documents you create will be placed in the /docs directory relative to the directory where the notebook is located at.
-The name of the document will be the same as the notebook with appended the following characters '_func_spec.md'
+Provide the output in Markdown format.
 
 ## Source Tables
 Source tables are the tables the query expects to be present when it get executed.
@@ -73,13 +72,8 @@ The following is expected to be present once for each of the target table column
 Target Column | Data Type | Transformation Logic | Source Table | Source Column |
 |:------------|:----------|:---------------------|:-------------|:--------------|
 
-
 ## General Insructions
 
 For transformation and selection logic use SQL statements and do not use natural language.
 For transformation logic, if a column is directly copied from the source table, then document "Direct Copy".
 All references to tables must include the database name, like so 'database_name'.'database_table'
-
-# Execution
-
-Execute for the notebook AnalyticalCardsCustomerCharacteristics.py
