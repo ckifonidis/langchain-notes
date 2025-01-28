@@ -145,7 +145,7 @@ class MarkdownRAGProcessor:
         """
         documents = self.process_markdown_directory('markdown_parser[wip]/docs')
 
-        # Create Chroma vectorstore
+        # Create FAISS vectorstore
         self.vectorstore = FAISS.from_documents(
                 documents=documents,
                 embedding=self.embeddings

@@ -111,8 +111,6 @@ def generate_answers(query: str):
     result = qa_chain({"question": query})
     return result
 
-
-
 if __name__ == "__main__":
     query = "What are the latest trends in artificial intelligence?"
 
