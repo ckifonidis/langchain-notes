@@ -1,0 +1,344 @@
+{
+    "users": [
+        {
+            "id": "507f1f77bcf86cd799439011",
+            "email": "john.doe@example.com",
+            "firstName": "John",
+            "lastName": "Doe",
+            "passwordHash": "$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTa",
+            "status": "active",
+            "profile": {
+                "avatar": "https://example.com/avatars/john-doe.jpg",
+                "bio": "Software engineer with 5+ years of experience",
+                "dateOfBirth": "1990-05-15"
+            },
+            "contact": {
+                "phone": "+14155552671",
+                "address": {
+                    "street": "123 Main St",
+                    "city": "San Francisco",
+                    "state": "CA",
+                    "postalCode": "94105",
+                    "country": "United States"
+                }
+            },
+            "preferences": {
+                "language": "en-US",
+                "timezone": "America/Los_Angeles",
+                "notifications": {
+                    "email": true,
+                    "push": true,
+                    "sms": false
+                }
+            },
+            "createdAt": "2023-01-01T08:00:00Z",
+            "updatedAt": "2024-01-15T15:30:00Z"
+        },
+        {
+            "id": "507f1f77bcf86cd799439012",
+            "email": "maria.garcia@example.com",
+            "firstName": "Maria",
+            "lastName": "Garcia",
+            "passwordHash": "$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTb",
+            "status": "pending",
+            "profile": {
+                "avatar": "https://example.com/avatars/maria-garcia.jpg",
+                "bio": "Digital marketing specialist passionate about growth strategies",
+                "dateOfBirth": "1988-09-23"
+            },
+            "contact": {
+                "phone": "+34655555555",
+                "address": {
+                    "street": "Calle Mayor 45",
+                    "city": "Madrid",
+                    "state": "Madrid",
+                    "postalCode": "28013",
+                    "country": "Spain"
+                }
+            },
+            "preferences": {
+                "language": "es-ES",
+                "timezone": "Europe/Madrid",
+                "notifications": {
+                    "email": true,
+                    "push": true,
+                    "sms": true
+                }
+            },
+            "createdAt": "2023-02-15T10:30:00Z",
+            "updatedAt": "2024-01-10T09:15:00Z"
+        },
+        {
+            "id": "507f1f77bcf86cd799439013",
+            "email": "akiko.tanaka@example.com",
+            "firstName": "Akiko",
+            "lastName": "Tanaka",
+            "passwordHash": "$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTc",
+            "status": "inactive",
+            "profile": {
+                "avatar": "https://example.com/avatars/akiko-tanaka.jpg",
+                "bio": "UX designer creating meaningful digital experiences",
+                "dateOfBirth": "1992-12-07"
+            },
+            "contact": {
+                "phone": "+81355555555",
+                "address": {
+                    "street": "1-2-3 Shibuya",
+                    "city": "Tokyo",
+                    "state": "Tokyo",
+                    "postalCode": "150-0002",
+                    "country": "Japan"
+                }
+            },
+            "preferences": {
+                "language": "ja-JP",
+                "timezone": "Asia/Tokyo",
+                "notifications": {
+                    "email": true,
+                    "push": false,
+                    "sms": false
+                }
+            },
+            "createdAt": "2023-03-20T03:45:00Z",
+            "updatedAt": "2024-01-05T11:20:00Z"
+        },
+        {
+            "id": "507f1f77bcf86cd799439014",
+            "email": "alex.smith@example.com",
+            "firstName": "Alex",
+            "lastName": "Smith",
+            "passwordHash": "$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTd",
+            "status": "suspended",
+            "profile": {
+                "avatar": "https://example.com/avatars/alex-smith.jpg",
+                "bio": "Freelance content writer and blogger",
+                "dateOfBirth": "1995-03-30"
+            },
+            "contact": {
+                "phone": "+447911123456",
+                "address": {
+                    "street": "45 Oxford Street",
+                    "city": "London",
+                    "state": "England",
+                    "postalCode": "W1D 2DZ",
+                    "country": "United Kingdom"
+                }
+            },
+            "preferences": {
+                "language": "en-GB",
+                "timezone": "Europe/London",
+                "notifications": {
+                    "email": true,
+                    "push": true,
+                    "sms": true
+                }
+            },
+            "createdAt": "2023-04-05T14:20:00Z",
+            "updatedAt": "2023-12-28T16:45:00Z"
+        },
+        {
+            "id": "507f1f77bcf86cd799439015",
+            "email": "sophie.dubois@example.com",
+            "firstName": "Sophie",
+            "lastName": "Dubois",
+            "passwordHash": "$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTe",
+            "status": "active",
+            "profile": {
+                "avatar": "https://example.com/avatars/sophie-dubois.jpg",
+                "bio": "Product manager specializing in fintech solutions",
+                "dateOfBirth": "1987-11-18"
+            },
+            "contact": {
+                "phone": "+33612345678",
+                "address": {
+                    "street": "15 Rue de la Paix",
+                    "city": "Paris",
+                    "state": "Île-de-France",
+                    "postalCode": "75002",
+                    "country": "France"
+                }
+            },
+            "preferences": {
+                "language": "fr-FR",
+                "timezone": "Europe/Paris",
+                "notifications": {
+                    "email": true,
+                    "push": true,
+                    "sms": false
+                }
+            },
+            "createdAt": "2023-05-12T09:15:00Z",
+            "updatedAt": "2024-01-08T13:40:00Z"
+        },
+        {
+            "id": "507f1f77bcf86cd799439016",
+            "email": "raj.patel@example.com",
+            "firstName": "Raj",
+            "lastName": "Patel",
+            "passwordHash": "$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTf",
+            "status": "active",
+            "profile": {
+                "avatar": "https://example.com/avatars/raj-patel.jpg",
+                "bio": "Data scientist specializing in AI and machine learning",
+                "dateOfBirth": "1991-08-12"
+            },
+            "contact": {
+                "phone": "+919855555555",
+                "address": {
+                    "street": "42 Marine Drive",
+                    "city": "Mumbai",
+                    "state": "Maharashtra",
+                    "postalCode": "400001",
+                    "country": "India"
+                }
+            },
+            "preferences": {
+                "language": "en-IN",
+                "timezone": "Asia/Kolkata",
+                "notifications": {
+                    "email": true,
+                    "push": true,
+                    "sms": true
+                }
+            },
+            "createdAt": "2023-06-15T07:30:00Z",
+            "updatedAt": "2024-01-18T09:20:00Z"
+        },
+        {
+            "id": "507f1f77bcf86cd799439017",
+            "email": "olga.petrova@example.com",
+            "firstName": "Olga",
+            "lastName": "Petrova",
+            "passwordHash": "$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTg",
+            "status": "pending",
+            "profile": {
+                "avatar": "https://example.com/avatars/olga-petrova.jpg",
+                "bio": "Cybersecurity analyst and blockchain researcher",
+                "dateOfBirth": "1994-03-25"
+            },
+            "contact": {
+                "phone": "+74955555555",
+                "address": {
+                    "street": "Tverskaya Street 15",
+                    "city": "Moscow",
+                    "state": "Moscow",
+                    "postalCode": "125009",
+                    "country": "Russia"
+                }
+            },
+            "preferences": {
+                "language": "ru-RU",
+                "timezone": "Europe/Moscow",
+                "notifications": {
+                    "email": true,
+                    "push": false,
+                    "sms": true
+                }
+            },
+            "createdAt": "2023-07-20T11:45:00Z",
+            "updatedAt": "2024-01-19T14:30:00Z"
+        },
+        {
+            "id": "507f1f77bcf86cd799439018",
+            "email": "mohammed.ahmed@example.com",
+            "firstName": "Mohammed",
+            "lastName": "Ahmed",
+            "passwordHash": "$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTh",
+            "status": "active",
+            "profile": {
+                "avatar": "https://example.com/avatars/mohammed-ahmed.jpg",
+                "bio": "Renewable energy consultant and sustainability expert",
+                "dateOfBirth": "1986-11-30"
+            },
+            "contact": {
+                "phone": "+971555555555",
+                "address": {
+                    "street": "Sheikh Zayed Road 123",
+                    "city": "Dubai",
+                    "state": "Dubai",
+                    "postalCode": "12345",
+                    "country": "United Arab Emirates"
+                }
+            },
+            "preferences": {
+                "language": "ar-AE",
+                "timezone": "Asia/Dubai",
+                "notifications": {
+                    "email": true,
+                    "push": true,
+                    "sms": false
+                }
+            },
+            "createdAt": "2023-08-05T08:15:00Z",
+            "updatedAt": "2024-01-20T10:45:00Z"
+        },
+        {
+            "id": "507f1f77bcf86cd799439019",
+            "email": "isabella.santos@example.com",
+            "firstName": "Isabella",
+            "lastName": "Santos",
+            "passwordHash": "$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTi",
+            "status": "active",
+            "profile": {
+                "avatar": "https://example.com/avatars/isabella-santos.jpg",
+                "bio": "Environmental lawyer and climate change advocate",
+                "dateOfBirth": "1993-02-18"
+            },
+            "contact": {
+                "phone": "+551155555555",
+                "address": {
+                    "street": "Avenida Paulista 1000",
+                    "city": "São Paulo",
+                    "state": "SP",
+                    "postalCode": "01310-100",
+                    "country": "Brazil"
+                }
+            },
+            "preferences": {
+                "language": "pt-BR",
+                "timezone": "America/Sao_Paulo",
+                "notifications": {
+                    "email": true,
+                    "push": true,
+                    "sms": true
+                }
+            },
+            "createdAt": "2023-09-10T13:20:00Z",
+            "updatedAt": "2024-01-21T16:35:00Z"
+        },
+        {
+            "id": "507f1f77bcf86cd799439020",
+            "email": "liu.wei@example.com",
+            "firstName": "Wei",
+            "lastName": "Liu",
+            "passwordHash": "$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTj",
+            "status": "inactive",
+            "profile": {
+                "avatar": "https://example.com/avatars/liu-wei.jpg",
+                "bio": "E-commerce strategy consultant and digital transformation expert",
+                "dateOfBirth": "1989-07-14"
+            },
+            "contact": {
+                "phone": "+861355555555",
+                "address": {
+                    "street": "Chaoyang Road 888",
+                    "city": "Beijing",
+                    "state": "Beijing",
+                    "postalCode": "100025",
+                    "country": "China"
+                }
+            },
+            "preferences": {
+                "language": "zh-CN",
+                "timezone": "Asia/Shanghai",
+                "notifications": {
+                    "email": true,
+                    "push": false,
+                    "sms": false
+                }
+            },
+            "createdAt": "2023-10-15T05:40:00Z",
+            "updatedAt": "2024-01-22T08:25:00Z"
+        }
+    ]
+}
