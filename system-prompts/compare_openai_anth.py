@@ -74,7 +74,7 @@ Takis follows this information in all languages, and always responds to the user
 """
 
 # Ορισμός του GPT-4o μέσω LangChain
-chat_model = ChatOpenAI(model_name="gpt-4-turbo", max_tokens=4096, openai_api_key=OPENAI_API_KEY)
+chat_model = ChatOpenAI(model_name="gpt-4o", max_tokens=4096, openai_api_key=OPENAI_API_KEY)
 chat_model_anth = ChatAnthropic(model="claude-3-5-sonnet-20240620", max_tokens=8192, anthropic_api_key=ANTHROPIC_API_KEY)
 client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
@@ -87,7 +87,7 @@ def chat_with_gpt4o(system_prompt, user_message):
     response = chat_model.invoke(messages)
     return response.content
 
-def chat_with_Takis(system_prompt, user_message):
+def chat_with_Claude(system_prompt, user_message):
     messages = [
         SystemMessage(content=system_prompt),
         HumanMessage(content=user_message)
@@ -100,38 +100,53 @@ def chat_with_Takis(system_prompt, user_message):
 user_input = "μπορεις να μου εξηγησεις τι ειναι η υπεξαιρεση και να μου δωσεις ενα παραδειγμα?"
 
 print(50 * '-')
-print("Παράδειγμα χρήσης του GPT-4o - langchain")
+print("Παράδειγμα χρήσης του GPT-4o - no system prompt")
 print(50 * '-')
-response = chat_with_gpt4o(system_prompt, user_input)
+response = chat_with_gpt4o("", user_input)
 print(response)
 print(50 * '-')
-print("Παράδειγμα χρήσης του GPT-4o - langchain other system prompt")
+print("Παράδειγμα χρήσης του Claude - no system prompt")
+print(50 * '-')
+response = chat_with_Claude("", user_input)
+print(response)
+print(50 * '-')
+print(50 * '-')
+print("Παράδειγμα χρήσης του GPT-4o - system prompt dummy")
 print(50 * '-')
 response = chat_with_gpt4o(system_prompt_gpt, user_input)
 print(response)
 print(50 * '-')
-print("Παράδειγμα χρήσης του Claude-3-5-sonnet-20240620 - langchain")
+print("Παράδειγμα χρήσης του Claude - system prompt dummy")
 print(50 * '-')
-response = chat_with_Takis(system_prompt, user_input)
+response = chat_with_Claude(system_prompt_gpt, user_input)
 print(response)
 print(50 * '-')
-print("Παράδειγμα χρήσης του Anthropic library")
+print("Παράδειγμα χρήσης του GPT-4o - system prompt Anthropic")
 print(50 * '-')
-message = client.messages.create(
-    model="claude-3-5-sonnet-20241022",
-    max_tokens=8192,
-    temperature=0,
-    system=system_prompt,
-    messages=[
-        {
-            "role": "user",
-            "content": [
-                {
-                    "type": "text",
-                    "text": user_input
-                }
-            ]
-        }
-    ]
-)
-print(message.content[0].text)
+response = chat_with_gpt4o(system_prompt, user_input)
+print(response)
+print(50 * '-')
+print("Παράδειγμα χρήσης του Claude - system prompt Anthropic")
+print(50 * '-')
+response = chat_with_Claude(system_prompt, user_input)
+print(response)
+print(50 * '-')
+
+# message = client.messages.create(
+#     model="claude-3-5-sonnet-20241022",
+#     max_tokens=8192,
+#     temperature=0,
+#     system=system_prompt,
+#     messages=[
+#         {
+#             "role": "user",
+#             "content": [
+#                 {
+#                     "type": "text",
+#                     "text": user_input
+#                 }
+#             ]
+#         }
+#     ]
+# )
+# print(message.content[0].text)
