@@ -97,40 +97,111 @@ def chat_with_Claude(system_prompt, user_message):
     return response.content
 
 # Παράδειγμα χρήσης
-user_input = "μπορεις να μου εξηγησεις τι ειναι η υπεξαιρεση και να μου δωσεις ενα παραδειγμα?"
+# user_input = "μπορεις να μου εξηγησεις τι ειναι η υπεξαιρεση και να μου δωσεις ενα παραδειγμα?"
+user_input = """
+A small coastal town is facing a dilemma with its growing tourism industry. 
+The local economy has traditionally relied on fishing, but fish populations are declining. 
+Tourism brings in significant revenue but is causing environmental strain on the beach ecosystems and driving up housing costs for locals. 
+The town council is considering three proposals:
 
-print(50 * '-')
-print("Παράδειγμα χρήσης του GPT-4o - no system prompt")
-print(50 * '-')
-response = chat_with_gpt4o("", user_input)
-print(response)
-print(50 * '-')
-print("Παράδειγμα χρήσης του Claude - no system prompt")
-print(50 * '-')
-response = chat_with_Claude("", user_input)
-print(response)
-print(50 * '-')
-print(50 * '-')
-print("Παράδειγμα χρήσης του GPT-4o - system prompt dummy")
-print(50 * '-')
-response = chat_with_gpt4o(system_prompt_gpt, user_input)
-print(response)
-print(50 * '-')
-print("Παράδειγμα χρήσης του Claude - system prompt dummy")
-print(50 * '-')
-response = chat_with_Claude(system_prompt_gpt, user_input)
-print(response)
-print(50 * '-')
-print("Παράδειγμα χρήσης του GPT-4o - system prompt Anthropic")
-print(50 * '-')
-response = chat_with_gpt4o(system_prompt, user_input)
-print(response)
-print(50 * '-')
-print("Παράδειγμα χρήσης του Claude - system prompt Anthropic")
-print(50 * '-')
-response = chat_with_Claude(system_prompt, user_input)
-print(response)
-print(50 * '-')
+Implement a daily tourist quota and visitor fee
+Invest in sustainable fishing technology and marine conservation
+Develop more tourist infrastructure and marketing
+
+Given the following constraints:
+
+The town's population is 70% dependent on either fishing or tourism
+Marine biodiversity has declined 35% in the past decade
+Local housing costs have increased 85% in five years
+Tourist revenue has grown 150% in three years
+The town has limited funds for only one major initiative
+
+What solution would best balance economic stability, environmental protection, 
+and community wellbeing? Explain your reasoning and consider potential long-term consequences.
+"""
+with open('system-prompts/about2.md', 'w') as file:
+    file.write("## Test Prompt\n")
+    file.write(user_input)
+    file.write("\n")
+    file.write(" ## GPT-4o")
+    file.write(chat_with_gpt4o("", user_input))
+    file.write("\n")
+    file.write(" ## Sonet 3.5 Response")
+    file.write(chat_with_Claude("", user_input))
+    file.write("\n")
+    file.write(" ## GPT-4o with System Prompt Response")
+    file.write("\n")
+    file.write("### System Prompt")
+    file.write("\n")
+    file.write(system_prompt_gpt)
+    file.write("\n")
+    file.write("### Response")
+    file.write("\n")
+    file.write(chat_with_gpt4o(system_prompt_gpt, user_input))
+    file.write("\n")
+    file.write(" ## Sonet 3.5 with System Prompt Response ")
+    file.write("\n")
+    file.write("### System Prompt")
+    file.write("\n")
+    file.write(system_prompt_gpt)
+    file.write("\n")
+    file.write("### Response")
+    file.write("\n")
+    file.write(chat_with_Claude(system_prompt_gpt, user_input))
+    file.write("\n")
+    file.write(" ## GPT-4o with System Prompt Response")
+    file.write("\n")
+    file.write("### System Prompt")
+    file.write("\n")
+    file.write("Anthropic's system prompt")
+    file.write("\n")
+    file.write("### Response")
+    file.write("\n")
+    file.write(chat_with_gpt4o(system_prompt, user_input))
+    file.write("\n")
+    file.write(" ## Sonet 3.5 with System Prompt Response ")
+    file.write("\n")
+    file.write("### System Prompt")
+    file.write("\n")
+    file.write("Anthropic's system prompt")
+    file.write("\n")
+    file.write("### Response")
+    file.write("\n")
+    file.write(chat_with_Claude(system_prompt, user_input))
+    file.write("\n")
+
+# print(50 * '-')
+# print("Παράδειγμα χρήσης του GPT-4o - no system prompt")
+# print(50 * '-')
+# response = chat_with_gpt4o("", user_input)
+# print(response)
+# print(50 * '-')
+# print("Παράδειγμα χρήσης του Claude - no system prompt")
+# print(50 * '-')
+# response = chat_with_Claude("", user_input)
+# print(response)
+# print(50 * '-')
+# print(50 * '-')
+# print("Παράδειγμα χρήσης του GPT-4o - system prompt dummy")
+# print(50 * '-')
+# response = chat_with_gpt4o(system_prompt_gpt, user_input)
+# print(response)
+# print(50 * '-')
+# print("Παράδειγμα χρήσης του Claude - system prompt dummy")
+# print(50 * '-')
+# response = chat_with_Claude(system_prompt_gpt, user_input)
+# print(response)
+# print(50 * '-')
+# print("Παράδειγμα χρήσης του GPT-4o - system prompt Anthropic")
+# print(50 * '-')
+# response = chat_with_gpt4o(system_prompt, user_input)
+# print(response)
+# print(50 * '-')
+# print("Παράδειγμα χρήσης του Claude - system prompt Anthropic")
+# print(50 * '-')
+# response = chat_with_Claude(system_prompt, user_input)
+# print(response)
+# print(50 * '-')
 
 # message = client.messages.create(
 #     model="claude-3-5-sonnet-20241022",
