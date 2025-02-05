@@ -4,7 +4,7 @@ from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 # from langchain.chains import LLMChain
 from config import (
-    AZURE_OPENAI_API_KEY,
+    OPENAI_API_KEY,
     AZURE_OPENAI_ENDPOINT,
     AZURE_DEPLOYMENT_NAME,
 )
@@ -13,7 +13,7 @@ from azure_search_manager import AzureSearchManager
 class RAGChain:
     def __init__(self):
         self.search_manager = AzureSearchManager()
-        self.llm = ChatOpenAI(model="gpt-4o", temperature=0.0)
+        self.llm = ChatOpenAI(model="gpt-4o", temperature=0.0, api_key=OPENAI_API_KEY)
         # self.llm = AzureChatOpenAI(
         #     openai_api_key=AZURE_OPENAI_API_KEY,
         #     azure_endpoint=AZURE_OPENAI_ENDPOINT,

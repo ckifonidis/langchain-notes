@@ -1,6 +1,6 @@
 from typing import List, Dict, Any
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.document_loaders import UnstructuredFileLoader
+from langchain_unstructured import UnstructuredLoader
 from langchain.schema import Document
 import os
 from config import CHUNK_SIZE, CHUNK_OVERLAP
@@ -23,7 +23,7 @@ class DocumentProcessor:
                 if file.endswith(('.txt', '.pdf', '.docx', '.doc')):
                     file_path = os.path.join(root, file)
                     try:
-                        loader = UnstructuredFileLoader(file_path)
+                        loader = UnstructuredLoader(file_path)
                         docs = loader.load()
                         documents.extend(docs)
                     except Exception as e:
@@ -39,6 +39,7 @@ class DocumentProcessor:
         # Enhance chunks with additional metadata
         for i, chunk in enumerate(chunks):
             chunk.metadata.update({
+                'id': i,
                 'chunk_id': i,
                 'chunk_size': len(chunk.page_content),
                 'document_type': chunk.metadata.get('source', '').split('.')[-1],
