@@ -5,3 +5,4 @@ __pycache__/*
 web_research_db/*
 code/generated/
 **/private_test_**/*
+.clinerules-documentation-writer
