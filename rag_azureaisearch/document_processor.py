@@ -1,6 +1,7 @@
 from typing import List, Dict, Any
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_unstructured import UnstructuredLoader
+from langchain_community.document_loaders import Docx2txtLoader
 from langchain.schema import Document
 import os
 from config import CHUNK_SIZE, CHUNK_OVERLAP
@@ -20,10 +21,10 @@ class DocumentProcessor:
         documents = []
         for root, _, files in os.walk(directory_path):
             for file in files:
-                if file.endswith(('.txt', '.pdf', '.docx', '.doc')):
+                if file.endswith(('.docx')):
                     file_path = os.path.join(root, file)
                     try:
-                        loader = UnstructuredLoader(file_path)
+                        loader = Docx2txtLoader(file_path)
                         docs = loader.load()
                         documents.extend(docs)
                     except Exception as e:

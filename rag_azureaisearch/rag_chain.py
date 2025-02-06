@@ -13,7 +13,7 @@ from azure_search_manager import AzureSearchManager
 class RAGChain:
     def __init__(self):
         self.search_manager = AzureSearchManager()
-        self.llm = ChatOpenAI(model="gpt-4o", temperature=0.0, api_key=OPENAI_API_KEY)
+        self.llm = ChatOpenAI(model="gpt-4", temperature=0.0, api_key=OPENAI_API_KEY)
         # self.llm = AzureChatOpenAI(
         #     openai_api_key=AZURE_OPENAI_API_KEY,
         #     azure_endpoint=AZURE_OPENAI_ENDPOINT,
@@ -68,13 +68,13 @@ class RAGChain:
         context = self._format_context(search_results)
 
         # Generate response using LLM
-        response = await self.chain.invoke(
-            {context:context,
-            question:question
-        })
+        response = self.chain.invoke(
+            {"context": context,
+             "question": question
+            })
 
         return {
-            "answer": response,
+            "answer": response.content,
             "sources": [result['source'] for result in search_results],
             "context": context
         }
