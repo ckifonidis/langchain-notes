@@ -1,10 +1,11 @@
-
-## Langchain Section
+### Tools: Preparation & Setup
+## Langchain
 ### Models & Chats
 ### Templates, Chains & Runnables
+### Chains & more Chains
 ### Agents & Tools
 ### RAG: Indexing & Retrieval
-## LangGraph Section
+## LangGraph
 ### Graphs, Nodes & Tools
 ## Use Cases 
 ### Code Generation
