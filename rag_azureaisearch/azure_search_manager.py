@@ -1,20 +1,26 @@
 from typing import List, Dict, Any
 import logging
-from langchain_openai import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI, AzureOpenAIEmbeddings, AzureChatOpenAI
 from langchain_community.vectorstores.azuresearch import AzureSearch
+from langchain.prompts import PromptTemplate
 from langchain.schema import Document
 import requests
 import json
 from urllib.parse import urlparse
+from tqdm import tqdm
 from config import (
     AZURE_SEARCH_ENDPOINT,
     AZURE_SEARCH_KEY,
     AZURE_SEARCH_INDEX_NAME,
+    AZURE_OPENAI_ENDPOINT,
+    AZURE_OPENAI_API_VERSION,
+    AZURE_OPENAI_KEY,
     OPENAI_API_KEY,
     LOG_FILE,
     LOG_FORMAT,
     LOG_LEVEL
 )
+import os
 
 # Azure Search API version
 API_VERSION = "2023-11-01"
@@ -114,12 +120,22 @@ class AzureSearchManager:
         """Initialize Azure Search with OpenAI embeddings"""
         try:
             log(logging.INFO, "Initializing OpenAI embeddings...")
-            self.embeddings = OpenAIEmbeddings(
-                api_key=OPENAI_API_KEY,
-                model="text-embedding-3-small",
-                show_progress_bar = True
+            # self.embeddings = OpenAIEmbeddings(
+            #     api_key=OPENAI_API_KEY,
+            #     model="text-embedding-3-small"
+            # )
+            self.embeddings = AzureOpenAIEmbeddings(
+                azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
+                api_key=os.getenv("AZURE_OPENAI_KEY"),
+                model="text-embedding-3-small"
             )
-            
+            self.llm = AzureChatOpenAI(
+            model="gpt-4o",
+            temperature=0.0,
+            api_version=AZURE_OPENAI_API_VERSION,
+            azure_endpoint=AZURE_OPENAI_ENDPOINT,
+            api_key=AZURE_OPENAI_KEY,
+            )
             # Test embeddings
             try:
                 self.embeddings.embed_query("test")
@@ -136,6 +152,7 @@ class AzureSearchManager:
                 azure_search_key=AZURE_SEARCH_KEY,
                 index_name=AZURE_SEARCH_INDEX_NAME,
                 embedding_function=self.embeddings.embed_query,
+                # default_scoring_profile="myscoreprofile"
             )
             
             log(logging.INFO, f"Successfully initialized AzureSearchManager with endpoint: {AZURE_SEARCH_ENDPOINT}")
@@ -180,8 +197,9 @@ class AzureSearchManager:
             required_fields = [
                 {"name": "id", "type": "Edm.String", "key": True, "filterable": True},
                 {"name": "content", "type": "Edm.String", "filterable": False, "sortable": False, "searchable": True, "analyzer": "standard.lucene"},
-                {"name": "chunk_id", "type": "Edm.String", "filterable": True, "sortable": True},
-                {"name": "source", "type": "Edm.String", "filterable": True, "sortable": True},
+                {"name": "chunk_id", "type": "Edm.String", "filterable": True, "sortable": True, "searchable": False},
+                {"name": "source", "type": "Edm.String", "filterable": True, "sortable": True, "searchable": False},
+                {"name": "type", "type": "Edm.String", "filterable": True, "sortable": True, "searchable": True},
                 {"name": "title", "type": "Edm.String", "filterable": True, "sortable": True, "searchable": True}
             ]
             
@@ -232,8 +250,8 @@ class AzureSearchManager:
                 "fields": [
                     {"name": "id", "type": "Edm.String", "key": True, "filterable": True},
                     {"name": "content", "type": "Edm.String", "filterable": False, "sortable": False, "searchable": True, "analyzer": "standard.lucene"},
-                    {"name": "chunk_id", "type": "Edm.String", "filterable": True, "sortable": True},
-                    {"name": "source", "type": "Edm.String", "filterable": True, "sortable": True},
+                    # {"name": "chunk_id", "type": "Edm.String", "filterable": True, "sortable": True},
+                    # {"name": "source", "type": "Edm.String", "filterable": True, "sortable": True},
                     {"name": "title", "type": "Edm.String", "filterable": True, "sortable": True, "searchable": True},
                     # Vector field for embeddings
                     {
@@ -248,8 +266,9 @@ class AzureSearchManager:
                         "name": "my-hnsw",
                         "kind": "hnsw",
                         "hnswParameters": {
-                            "m": 4,
-                            "efConstruction": 400,
+                            "m": 10,                    # Recommended for ML embeddings
+                            "efConstruction": 600,      # Higher for better accuracy
+                            "efSearch": 600,            # Runtime search quality
                             "metric": "cosine"
                         }
                     }],
@@ -329,7 +348,8 @@ class AzureSearchManager:
                         'id': str(idx),  # Use index as stable ID
                         'content': str(doc.page_content),
                         'source': doc.metadata.get('source', ''),
-                        'title': doc.metadata.get('title', ''),
+                        'title': os.path.basename(doc.metadata.get('source', '')),
+                        'type': os.path.basename(os.path.dirname(doc.metadata.get('source', ''))),
                         'chunk_id': str(doc.metadata.get('chunk_id', idx))
                     }
                     processed_docs.append(processed_doc)
@@ -340,9 +360,9 @@ class AzureSearchManager:
             
             if processed_docs:
                 try:
-                    # Generate embeddings for each document
+                    # Generate embeddings for each document with progress bar
                     log(logging.INFO, "Generating embeddings for documents...")
-                    embeddings = [self.embeddings.embed_query(doc['content']) for doc in processed_docs]
+                    embeddings = [self.embeddings.embed_query(doc['content']) for doc in tqdm(processed_docs, desc="Generating embeddings")]
                     
                     # Add embeddings to each document
                     for doc, emb in zip(processed_docs, embeddings):
@@ -388,32 +408,62 @@ class AzureSearchManager:
             log(logging.ERROR, f"Error in document upload process: {str(e)}")
         
         return stats
+    # Create prompt template
+    def category_prompt(self) -> PromptTemplate:
+        prompt = """
+        Please act as a robust and well-trained intent classifier that can identify the most 
+        likely category that the questions refers to, WITHOUT USING the proper and common noun subject from the user's query. It can be ΚΑΡΤΕΣ (cards), ΚΑΤΑΝΑΛΩΤΙΚΑ (personal loans) and ΣΤΕΓΑΣΤΙΚΑ (mortgage).
 
-    def search(self, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
+        The identified category must be only one word and one of the ΚΑΡΤΕΣ, ΚΑΤΑΝΑΛΩΤΙΚΑ, ΣΤΕΓΑΣΤΙΚΑ.
+
+        User's query: {question}
+
+        Category:
+        """
+        return PromptTemplate(template=prompt, input_variables=['question'])
+    def category_chain(self, question: str) -> str:
+        """
+        Get the category of the question
+        """
+        output = self.category_prompt() | self.llm
+        return output.invoke({"question": question})
+    def search(self, query: str, top_k: int = 15) -> List[Dict[str, Any]]:
         """
         Search documents using vector similarity search
         """
         try:
-            log(logging.INFO, f"Executing similarity search for query: '{query}' with top_k={top_k}")
-            
-            # Perform similarity search
-            results = self.vector_store.similarity_search_with_score(
-                query,
-                k=top_k
-            )
-            
+            # log(logging.INFO, f"Executing similarity search for query: '{query}' with top_k={top_k}")
+            type_filter = self.category_chain(query)
+            if type_filter.content == "":
+                results = self.vector_store.hybrid_search_with_relevance_scores(
+                    query,
+                    k=top_k
+                )
+            elif type_filter.content in ['ΚΑΡΤΕΣ', 'ΚΑΤΑΝΑΛΩΤΙΚΑ', 'ΣΤΕΓΑΣΤΙΚΑ']:
+                # Perform similarity search
+                results = self.vector_store.hybrid_search_with_relevance_scores(
+                    query,
+                    k=top_k,
+                    filters=f"type eq '{type_filter.content}'"
+                )
+            else:
+                results = self.vector_store.hybrid_search_with_relevance_scores(
+                    query,
+                    k=top_k
+                )
+
             # Format results
             search_results = []
             for doc, score in results:
                 result = {
                     'content': doc.page_content,
-                    'source': doc.metadata.get('source', ''),
+                    'source': doc.metadata.get('title', ''),
                     'score': score,
                     **{k: v for k, v in doc.metadata.items() if k != 'source'}
                 }
                 search_results.append(result)
-            
-            log(logging.INFO, f"Search completed successfully - Found {len(search_results)} results")
+            # print([res['score'] for res in search_results])
+            # log(logging.INFO, f"Search completed successfully - Found {len(search_results)} results")
             return search_results
 
         except Exception as e:

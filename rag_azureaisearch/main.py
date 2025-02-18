@@ -3,6 +3,7 @@ from document_processor import DocumentProcessor
 from azure_search_manager import AzureSearchManager
 from rag_chain import RAGChain
 import argparse
+from tqdm import tqdm
 
 async def setup_knowledge_base(docs_directory: str):
     """
@@ -37,6 +38,36 @@ async def setup_knowledge_base(docs_directory: str):
     
     print("Knowledge base setup complete!")
 
+async def sqa():
+    """
+    Interactive chat loop using the RAG system
+    """
+    rag_chain = RAGChain()
+    
+    print("\nRAG System Ready! Type 'quit' to exit.")
+    with open('rag_azureaisearch/questions.txt', 'r') as f:
+        lines = f.readlines()
+    
+    with open('rag_azureaisearch/answers_with_sources.txt', 'w') as fw:
+        for line in tqdm(lines):
+            question = line.replace("\n","")
+            fw.write(f"Question: {line} \n")
+            
+            try:
+                response = await rag_chain.generate_response(line)
+                
+                fw.write(f"Answer: {response["answer"]} \n")
+                fw.write(f"Sources: {response["sources"]} \n")
+                fw.write(50*"-")
+                fw.write("\n")
+                # print("\nSources:")
+                # for source in response["sources"]:
+                #     print(f"- {source}")
+                # print()
+                
+            except Exception as e:
+                print(f"Error: {str(e)}")
+
 async def chat_loop():
     """
     Interactive chat loop using the RAG system
@@ -59,10 +90,10 @@ async def chat_loop():
             response = await rag_chain.generate_response(question)
             
             print("\nAnswer:", response["answer"])
-            print("\nSources:")
-            for source in response["sources"]:
-                print(f"- {source}")
-            print()
+            # print("\nSources:")
+            # for source in list(set(response["sources"])):
+            #     print(f"- {source}")
+            print(100*"-")
             
         except Exception as e:
             print(f"Error: {str(e)}")
@@ -74,11 +105,17 @@ def main():
         type=str,
         help="Path to documents directory for initial setup",
     )
+    parser.add_argument(
+        "--questions",
+        type=bool
+    )
     
     args = parser.parse_args()
     
     if args.setup:
         asyncio.run(setup_knowledge_base(args.setup))
+    elif args.questions:
+        asyncio.run(sqa())
     else:
         asyncio.run(chat_loop())
 
