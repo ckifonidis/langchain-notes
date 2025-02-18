@@ -166,4 +166,15 @@ Logs are written to `logs/azure_search.log` with configurable log levels and for
 - Currently optimized for Markdown files
 - Requires Azure AI Search and OpenAI API access
 - Vector search dimensions fixed at 1536 (OpenAI embedding size)
-- Category classification limited to three predefined categories
+- Category classification limited to four predefined categories
+
+## Takeways
+- Sometimes it has limitations to combine information from different sources
+- It is important to have a good chunking strategy to improve search results
+- Hybrid search can be a powerful tool to combine different search strategies, but also misleading if not properly configured
+
+
+## Performance Improvements
+- Retrieve documents from two indexes and combined them
+- Use Azure Cognitive Search for document processing to extract keywords -> append metadata -> enhance search results
+- Agentic chunking for better search results
