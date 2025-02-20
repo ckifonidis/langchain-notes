@@ -1,5 +1,5 @@
 import os
-from langchain_openai import ChatOpenAI
+from langchain_openai import ChatOpenAI, AzureChatOpenAI
 from langchain_anthropic import ChatAnthropic
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
@@ -16,6 +16,8 @@ model = ChatOpenAI(
     api_key=os.getenv("DEEPSEEK_API_KEY"),
     base_url=os.getenv("DEEPSEEK_BASE_URL")
 )
+
+model = AzureChatOpenAI(azure_deployment="gpt-4o-mini")
 
 filename =  os.path.join(os.path.dirname(__file__),"documents","DevPortal API TDD _ BlogTag.md")
 with open(filename, 'r', encoding='utf-8') as file:

@@ -1,9 +1,3 @@
-```name
-code_types_writer
-```
-## **Prompt**: types_code_writer 
-
-```prompt
 Get the text i give you.
 
     Role:
@@ -35,4 +29,3 @@ Get the text i give you.
     Do not wrap the code in any code block formatting such as triple backticks.
 
     the text is here: {types_description}
-```

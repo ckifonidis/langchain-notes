@@ -1,8 +1,3 @@
-```name
-code_types_saver
-```
-
-```prompt
 Get the text I give you. This text is C# code. 
 In each block you will find two items: a hint for the filename you must create and the code you have to put in the file.
 I want you to return a json representation of these code blocks.
@@ -27,4 +22,3 @@ I want you to return everything and avoid to omit anything.
 
 The code is here:
 {code}
-```
