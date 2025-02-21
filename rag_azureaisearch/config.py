@@ -8,6 +8,8 @@ load_dotenv()
 AZURE_SEARCH_ENDPOINT = os.getenv("AZURE_SEARCH_ENDPOINT")
 AZURE_SEARCH_KEY = os.getenv("AZURE_SEARCH_KEY")
 AZURE_SEARCH_INDEX_NAME = "athena-sp-latest-docs-index" #"athena-sp-docs" # "athena-index"#
+AZURE_SEARCH_API_VERSION = "2023-11-01"
+
 
 # Azure OpenAI Configuration
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
