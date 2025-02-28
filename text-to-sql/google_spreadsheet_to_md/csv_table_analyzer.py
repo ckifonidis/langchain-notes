@@ -38,9 +38,20 @@ class TableDescriptionAnalyzer:
     def __init__(self,
                  output_dir: str = "output",
                  use_llm: bool = True,
-                 model_type: ModelType = ModelType.DEEPSEEK,
-                 model_name: Optional[str] = DeepseekModels.CODER,
-                 temperature: float = 0):
+                 model_type: ModelType = None,
+                 model_name: Optional[str] = None,
+                 temperature: Optional[float] = None):
+        """
+        Initialize the analyzer with the output directory path and model settings.
+        Model settings can be provided via constructor or environment variables:
+        - MODEL_TYPE: openai, anthropic, or deepseek
+        - MODEL_NAME: Specific model name
+        - MODEL_TEMPERATURE: Temperature setting (0-1)
+        """
+        # Load model settings from environment if not provided
+        model_type = model_type or ModelType[os.getenv('MODEL_TYPE', 'DEEPSEEK').upper()]
+        model_name = model_name or os.getenv('MODEL_NAME', DeepseekModels.CHAT)
+        temperature = temperature if temperature is not None else float(os.getenv('MODEL_TEMPERATURE', '1'))
         """
         Initialize the analyzer with the output directory path and model settings.
         

@@ -15,6 +15,11 @@ SPREADSHEET_ID=your_default_spreadsheet_id
 OPENAI_API_KEY=your_openai_key  # If using OpenAI models
 ANTHROPIC_API_KEY=your_anthropic_key  # If using Anthropic models
 DEEPSEEK_API_KEY=your_deepseek_key  # If using Deepseek models
+
+# Model Configuration (optional)
+MODEL_TYPE=deepseek  # Options: openai, anthropic, deepseek
+MODEL_NAME=deepseek-coder  # Model-specific name (e.g., gpt-4 for OpenAI)
+MODEL_TEMPERATURE=0  # Temperature setting (0-1)
 ```
 
 3. Place your Google Sheets credentials in `credentials.json`
@@ -29,12 +34,6 @@ poetry run python main.py your_spreadsheet_id
 
 # Disable LLM analysis
 poetry run python main.py your_spreadsheet_id --no-llm
-
-# Use specific model
-poetry run python main.py your_spreadsheet_id --model-type openai --model-name gpt-4
-
-# Adjust model temperature
-poetry run python main.py your_spreadsheet_id --temperature 0.7
 ```
 
 ### Output Structure
@@ -48,6 +47,5 @@ All files are organized under `output/{spreadsheet_id}/`:
 
 - `spreadsheet_id`: (Required) The ID of the Google Spreadsheet to process
 - `--no-llm`: Disable LLM-based analysis
-- `--model-type`: Type of model to use (openai, anthropic, or deepseek)
-- `--model-name`: Specific model name (default: deepseek-coder)
-- `--temperature`: Model temperature (0-1, default: 0)
+
+Model configuration (temperature, model type, etc.) is handled through environment variables. See the Environment Variables section above.

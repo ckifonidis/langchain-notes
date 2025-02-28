@@ -82,15 +82,6 @@ def main():
     parser = argparse.ArgumentParser(description='Download and analyze Google Spreadsheet data.')
     parser.add_argument('spreadsheet_id', help='The ID of the Google Spreadsheet to process')
     parser.add_argument('--no-llm', action='store_true', help='Disable LLM-based analysis')
-    parser.add_argument('--model-type', type=str,
-                    choices=['openai', 'anthropic', 'deepseek'],
-                    metavar='MODEL_TYPE',
-                    default='deepseek',
-                    help='Type of model to use (openai, anthropic, or deepseek)')
-    parser.add_argument('--model-name', type=str,
-                    help='Specific model name (default: deepseek-coder)')
-    parser.add_argument('--temperature', type=float, default=0,
-                    help='Model temperature (0-1, default: 0)')
     
     args = parser.parse_args()
     
