@@ -1,0 +1,79 @@
+{
+  "sheet_name": " payment_org",
+  "row_count": 20,
+  "column_count": 6,
+  "columns": {
+    "Order": {
+      "type": "string",
+      "unique_values": 6,
+      "null_count": 0,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    "Name": {
+      "type": "string",
+      "unique_values": 16,
+      "null_count": 0,
+      "sample_values": [
+        "org_code",
+        "name",
+        "start_date",
+        "end_date",
+        "category"
+      ]
+    },
+    "Type": {
+      "type": "string",
+      "unique_values": 14,
+      "null_count": 0,
+      "sample_values": [
+        "string",
+        "string",
+        "timestamp",
+        "timestamp",
+        "string"
+      ]
+    },
+    "Description_in_English": {
+      "type": "datetime",
+      "unique_values": 3,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column5": {
+      "type": "string",
+      "unique_values": 3,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column6": {
+      "type": "string",
+      "unique_values": 3,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    }
+  }
+}

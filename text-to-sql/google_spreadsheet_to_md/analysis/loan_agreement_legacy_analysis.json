@@ -1,0 +1,391 @@
+{
+  "sheet_name": "loan_agreement_legacy",
+  "row_count": 67,
+  "column_count": 32,
+  "columns": {
+    "id": {
+      "type": "identifier",
+      "unique_values": 36,
+      "null_count": 0,
+      "sample_values": [
+        "doc_type",
+        "br_title",
+        "br_code",
+        "br_town",
+        "pr_date"
+      ]
+    },
+    "0000024662884616b70872438f586bdb": {
+      "type": "string",
+      "unique_values": 23,
+      "null_count": 0,
+      "sample_values": [
+        "DOC1",
+        "ΚΕΝΤΡΙΚΟ",
+        "40",
+        "ΑΘΗΝΑ ΚΕΝΤΡΟ",
+        "30.06.2020"
+      ]
+    },
+    "00011ee421184193837bb80f03a25667": {
+      "type": "string",
+      "unique_values": 27,
+      "null_count": 0,
+      "sample_values": [
+        "DOC1",
+        "ΣΚΟΠΕΛΟΥ",
+        "471",
+        "ΣΚΟΠΕΛΟΣ",
+        "30.06.2020"
+      ]
+    },
+    "001520e713a64b6497cbfa3c02fedf03": {
+      "type": "string",
+      "unique_values": 27,
+      "null_count": 0,
+      "sample_values": [
+        "DOC1",
+        "ΓΡΕΒΕΝΩΝ",
+        "331",
+        "ΓΡΕΒΕΝΑ",
+        "30.06.2020"
+      ]
+    },
+    "0020c5e1c7a943dc9fbc24b5cf473972": {
+      "type": "string",
+      "unique_values": 18,
+      "null_count": 0,
+      "sample_values": [
+        "DOC1",
+        "ΜΑΚΡΥΓΙΑΝΝΗ",
+        "147",
+        "ΑΘΗΝΑ ΜΑΚΡΥΓΙΑΝΝΗ",
+        "30.06.2020"
+      ]
+    },
+    "column6": {
+      "type": "string",
+      "unique_values": 36,
+      "null_count": 0,
+      "sample_values": [
+        "Είδος Εγγραφής CHAR(4)",
+        "Τίτλος Καταστήματος CHAR(25)",
+        "Κωδικός Καταστήματος CHAR(5)",
+        "Πόλη CHAR(20)",
+        "Ημερομηνία CHAR(10)"
+      ]
+    },
+    "column7": {
+      "type": "datetime",
+      "unique_values": 5,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column8": {
+      "type": "datetime",
+      "unique_values": 5,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column9": {
+      "type": "datetime",
+      "unique_values": 4,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column10": {
+      "type": "datetime",
+      "unique_values": 5,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column11": {
+      "type": "datetime",
+      "unique_values": 1,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column12": {
+      "type": "datetime",
+      "unique_values": 1,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column13": {
+      "type": "datetime",
+      "unique_values": 5,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column14": {
+      "type": "datetime",
+      "unique_values": 2,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column15": {
+      "type": "datetime",
+      "unique_values": 2,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column16": {
+      "type": "datetime",
+      "unique_values": 2,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column17": {
+      "type": "datetime",
+      "unique_values": 5,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column18": {
+      "type": "datetime",
+      "unique_values": 5,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column19": {
+      "type": "datetime",
+      "unique_values": 5,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column20": {
+      "type": "datetime",
+      "unique_values": 2,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column21": {
+      "type": "datetime",
+      "unique_values": 5,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column22": {
+      "type": "datetime",
+      "unique_values": 5,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column23": {
+      "type": "datetime",
+      "unique_values": 4,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column24": {
+      "type": "datetime",
+      "unique_values": 2,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column25": {
+      "type": "datetime",
+      "unique_values": 4,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column26": {
+      "type": "datetime",
+      "unique_values": 4,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column27": {
+      "type": "datetime",
+      "unique_values": 2,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column28": {
+      "type": "datetime",
+      "unique_values": 5,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column29": {
+      "type": "datetime",
+      "unique_values": 1,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column30": {
+      "type": "datetime",
+      "unique_values": 5,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column31": {
+      "type": "datetime",
+      "unique_values": 5,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column32": {
+      "type": "datetime",
+      "unique_values": 2,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    }
+  }
+}

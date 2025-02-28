@@ -1,0 +1,31 @@
+{
+  "sheet_name": "pay_instrument",
+  "row_count": 22,
+  "column_count": 2,
+  "columns": {
+    "column1": {
+      "type": "integer",
+      "unique_values": 22,
+      "null_count": 1,
+      "sample_values": [
+        "100.0",
+        "111.0",
+        "112.0",
+        "113.0",
+        "114.0"
+      ]
+    },
+    "column2": {
+      "type": "string",
+      "unique_values": 22,
+      "null_count": 0,
+      "sample_values": [
+        "Αιτιολογία Κωδικών Πληρωμής",
+        "ΚΑΤΑΘΕΣΗ ΜΕΤΡΗΤΩΝ Η ΤΡΑΠΕΖΙΚΗΣ ΕΠΙΤΑΓΗΣ ΕΤΕ",
+        "ΚΑΤΑΘΕΣΗ ΕΠΙΤΑΓΗΣ ΕΠΙ ΕΤΕ ΜΕ ΑΜΕΣΗ ΧΡΕΩΣΗ(TR2100)",
+        "ΚΑΤΑΘΕΣΗ ΕΠΙΤΑΓΗΣ ΜΕΣΩ 026",
+        "ΚΑΤΑΘΕΣΗ ΕΠΙΤΑΓΗΣ ΜΕΣΩ DIASCHEQUE"
+      ]
+    }
+  }
+}

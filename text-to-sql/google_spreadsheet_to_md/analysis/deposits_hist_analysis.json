@@ -1,0 +1,67 @@
+{
+  "sheet_name": "deposits_hist",
+  "row_count": 23,
+  "column_count": 5,
+  "columns": {
+    "Order": {
+      "type": "integer",
+      "unique_values": 23,
+      "null_count": 0,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    "Name": {
+      "type": "string",
+      "unique_values": 23,
+      "null_count": 0,
+      "sample_values": [
+        "branch_acc",
+        "account",
+        "account_type",
+        "ledger_balance",
+        "trans_amount"
+      ]
+    },
+    "Type": {
+      "type": "code",
+      "unique_values": 2,
+      "null_count": 0,
+      "sample_values": [
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING",
+        "STRING"
+      ]
+    },
+    "Description": {
+      "type": "datetime",
+      "unique_values": 1,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "comment": {
+      "type": "datetime",
+      "unique_values": 2,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    }
+  }
+}

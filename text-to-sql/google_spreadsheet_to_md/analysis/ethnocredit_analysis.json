@@ -1,0 +1,67 @@
+{
+  "sheet_name": "ethnocredit",
+  "row_count": 13,
+  "column_count": 5,
+  "columns": {
+    "Order": {
+      "type": "integer",
+      "unique_values": 13,
+      "null_count": 0,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    "Name": {
+      "type": "string",
+      "unique_values": 13,
+      "null_count": 0,
+      "sample_values": [
+        "id",
+        "mid",
+        "issue_date",
+        "currency",
+        "amount"
+      ]
+    },
+    "Type": {
+      "type": "string",
+      "unique_values": 4,
+      "null_count": 0,
+      "sample_values": [
+        "string",
+        "string",
+        "timestamp",
+        "string",
+        "decimal (15,2)"
+      ]
+    },
+    "Description": {
+      "type": "string",
+      "unique_values": 13,
+      "null_count": 0,
+      "sample_values": [
+        "Id of the transaction created in BIG DATA",
+        "identifier ethnofile",
+        "Ημερομηνία ΈΚδοσης ethnofile",
+        "νόμισμα",
+        "ποσο"
+      ]
+    },
+    "comment": {
+      "type": "datetime",
+      "unique_values": 1,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    }
+  }
+}

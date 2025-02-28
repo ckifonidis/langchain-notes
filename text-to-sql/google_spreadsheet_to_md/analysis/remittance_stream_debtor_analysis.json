@@ -1,0 +1,67 @@
+{
+  "sheet_name": "remittance_stream_debtor",
+  "row_count": 33,
+  "column_count": 5,
+  "columns": {
+    "Order": {
+      "type": "integer",
+      "unique_values": 33,
+      "null_count": 1,
+      "sample_values": [
+        "1.0",
+        "2.0",
+        "3.0",
+        "4.0",
+        "5.0"
+      ]
+    },
+    "Name": {
+      "type": "string",
+      "unique_values": 32,
+      "null_count": 0,
+      "sample_values": [
+        "id",
+        "id",
+        "trn_type",
+        "date_ekd",
+        "aritent"
+      ]
+    },
+    "Type": {
+      "type": "string",
+      "unique_values": 3,
+      "null_count": 0,
+      "sample_values": [
+        "string",
+        "string",
+        "string",
+        "timestamp",
+        "string"
+      ]
+    },
+    "Description": {
+      "type": "string",
+      "unique_values": 31,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "Id of the transaction created in BIG DATA",
+        "Type of transaction (DEB)",
+        "Ημερομηνία ΈΚδοσης εμβάσματος",
+        "Μοναδικό χαρακτηριστικό συναλλαγής εμβάσματος"
+      ]
+    },
+    "comment": {
+      "type": "string",
+      "unique_values": 3,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    }
+  }
+}

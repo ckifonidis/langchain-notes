@@ -1,0 +1,187 @@
+{
+  "sheet_name": "transfer_trn",
+  "row_count": 66,
+  "column_count": 15,
+  "columns": {
+    "Order": {
+      "type": "integer",
+      "unique_values": 54,
+      "null_count": 0,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    "Name": {
+      "type": "string",
+      "unique_values": 64,
+      "null_count": 0,
+      "sample_values": [
+        "id",
+        "branch",
+        "aterm_id",
+        "wsid",
+        "trdate"
+      ]
+    },
+    "Type": {
+      "type": "string",
+      "unique_values": 16,
+      "null_count": 0,
+      "sample_values": [
+        "string",
+        "string",
+        "string",
+        "string",
+        "timestamp"
+      ]
+    },
+    "Description_in_English": {
+      "type": "string",
+      "unique_values": 51,
+      "null_count": 0,
+      "sample_values": [
+        "id of the transaction",
+        "branch of transaction (deposit_trn.branch_snd)",
+        "Termatiko",
+        "Workstations",
+        "Date of the transaction"
+      ]
+    },
+    "Description_in_Greek": {
+      "type": "string",
+      "unique_values": 51,
+      "null_count": 0,
+      "sample_values": [
+        "Κωδικός καναλιού από το οποίο πραγματοποιήθηκε η συναλλαγή.",
+        "Αριθμός Τερματικού. \nΔιαφορετική τιμή ανάλογα με την τιμή του πεδίου πεδίο BRANCH.",
+        "Κωδικός Workstation (αφορά μόνο το κατάστημα). \nΓια τα APS παίρνει την τιμή 1 (στο σύστημα πληρωμών).",
+        "Η ημερομηνία της συναλλαγής.",
+        "Η ώρα εκτέλεσης της συναλλαγής."
+      ]
+    },
+    "exists_in_deposit_trn": {
+      "type": "string",
+      "unique_values": 3,
+      "null_count": 0,
+      "sample_values": [
+        "FALSE",
+        "TRUE",
+        "TRUE",
+        "TRUE",
+        "TRUE"
+      ]
+    },
+    "data": {
+      "type": "string",
+      "unique_values": 3,
+      "null_count": 0,
+      "sample_values": [
+        "FALSE",
+        "FALSE",
+        "FALSE",
+        "FALSE",
+        "FALSE"
+      ]
+    },
+    "psd_2_requirements": {
+      "type": "datetime",
+      "unique_values": 1,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "Values": {
+      "type": "datetime",
+      "unique_values": 5,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "comment": {
+      "type": "datetime",
+      "unique_values": 4,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column11": {
+      "type": "datetime",
+      "unique_values": 1,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column12": {
+      "type": "datetime",
+      "unique_values": 7,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column13": {
+      "type": "datetime",
+      "unique_values": 8,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column14": {
+      "type": "datetime",
+      "unique_values": 8,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column15": {
+      "type": "datetime",
+      "unique_values": 8,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    }
+  }
+}

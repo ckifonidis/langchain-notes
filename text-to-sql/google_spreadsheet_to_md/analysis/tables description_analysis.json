@@ -1,0 +1,151 @@
+{
+  "sheet_name": "tables description",
+  "row_count": 55,
+  "column_count": 12,
+  "columns": {
+    "aa": {
+      "type": "string",
+      "unique_values": 33,
+      "null_count": 0,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    "Big_Data_Table": {
+      "type": "string",
+      "unique_values": 41,
+      "null_count": 0,
+      "sample_values": [
+        "deposit_trn",
+        "deposit_trn_stream",
+        "deposit2019_trn",
+        "transfer_trn",
+        "transfer_trn_stream"
+      ]
+    },
+    "Description": {
+      "type": "string",
+      "unique_values": 30,
+      "null_count": 0,
+      "sample_values": [
+        "Deposit transactions historical. Daily batch process that transfers records from deposit_trn_stream.",
+        "Deposit transactions of current day . Daily batch process that transfers  records to deposit_trn EOD.",
+        "Historical deposit transactions for 2019",
+        "Transfers between NBG accounts (historical). Deposit transactions enriched with information conserning the debtor and the creditor. Daily batch process that transfers records from transfer_trn_stream",
+        "Transfers between NBG accounts of current day. Deposit transactions enriched with information conserning the debtor and the creditor.  Daily batch process that transfers  records to transfer_trn EOD."
+      ]
+    },
+    "Type_of_table": {
+      "type": "string",
+      "unique_values": 5,
+      "null_count": 0,
+      "sample_values": [
+        "Impala parquet",
+        "KUDU",
+        "Impala parquet",
+        "Impala parquet",
+        "KUDU"
+      ]
+    },
+    "Partition": {
+      "type": "datetime",
+      "unique_values": 3,
+      "null_count": 0,
+      "sample_values": [
+        "par_year, par_accrange",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "production_flow": {
+      "type": "string",
+      "unique_values": 5,
+      "null_count": 0,
+      "sample_values": [
+        "once a day batch job oozie",
+        "streaming from zOS MQs",
+        "",
+        "once a day batch job oozie",
+        "streaming from zOS MQs"
+      ]
+    },
+    "Source": {
+      "type": "string",
+      "unique_values": 7,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "kat. new_acc_cashtran",
+        "kat. new_acc_cashtran",
+        "",
+        "pmnt.trans, kat. new_acc_cashtran"
+      ]
+    },
+    "date_to_production": {
+      "type": "datetime",
+      "unique_values": 9,
+      "null_count": 0,
+      "sample_values": [
+        "14/5/2020",
+        "",
+        "",
+        "1/7/2020",
+        ""
+      ]
+    },
+    "comments": {
+      "type": "datetime",
+      "unique_values": 7,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "pending_issues": {
+      "type": "datetime",
+      "unique_values": 4,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "1. delete HEADERS\n2.delete records with trdate=05.05.2020\n3. investigate 5 records with trdate=23.10.2020",
+        "",
+        "",
+        ""
+      ]
+    },
+    "column11": {
+      "type": "datetime",
+      "unique_values": 9,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "KY54P",
+        "KDTPD001",
+        "",
+        "SRVUTQ5"
+      ]
+    },
+    "column12": {
+      "type": "datetime",
+      "unique_values": 2,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        "01/01/2020-30/06/2020"
+      ]
+    }
+  }
+}

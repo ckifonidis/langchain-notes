@@ -1,0 +1,139 @@
+{
+  "sheet_name": "payment_code",
+  "row_count": 19,
+  "column_count": 11,
+  "columns": {
+    "Order": {
+      "type": "integer",
+      "unique_values": 19,
+      "null_count": 0,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    "Name": {
+      "type": "string",
+      "unique_values": 19,
+      "null_count": 0,
+      "sample_values": [
+        "id",
+        "start_date",
+        "end_date",
+        "payment_app",
+        "version"
+      ]
+    },
+    "Type": {
+      "type": "string",
+      "unique_values": 4,
+      "null_count": 0,
+      "sample_values": [
+        "string",
+        "timestamp",
+        "timestamp",
+        "string",
+        "string"
+      ]
+    },
+    "Description_in_English": {
+      "type": "datetime",
+      "unique_values": 2,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "sample": {
+      "type": "string",
+      "unique_values": 13,
+      "null_count": 0,
+      "sample_values": [
+        "0017A07F-BD97-4CDD-AC32-81BAE2A9C865",
+        "2017-03-24 21:24:22.047000000",
+        "9999-12-31 0:00:00",
+        "85DD12FF-1A7C-4074-A878-082380183BA2",
+        "1"
+      ]
+    },
+    "column6": {
+      "type": "string",
+      "unique_values": 13,
+      "null_count": 0,
+      "sample_values": [
+        "008E23F6-C7D5-4E80-8C78-0BA876F228F1",
+        "2017-12-13 12:45:22.893000000",
+        "9999-12-31 23:59:59.997000000",
+        "85DD12FF-1A7C-4074-A878-082380183BA2",
+        "1"
+      ]
+    },
+    "column7": {
+      "type": "string",
+      "unique_values": 13,
+      "null_count": 0,
+      "sample_values": [
+        "00B3A7F7-0A79-42F4-93BE-31B917BD11B6",
+        "2018-03-21 09:57:03.747000000",
+        "9999-12-31 23:59:59.997000000",
+        "85DD12FF-1A7C-4074-A878-082380183BA2",
+        "1"
+      ]
+    },
+    "column8": {
+      "type": "string",
+      "unique_values": 14,
+      "null_count": 0,
+      "sample_values": [
+        "00B7A646-665F-459D-8C00-2F4079CDD4A0",
+        "2019-02-05 14:25:18.153000000",
+        "9999-12-31 23:59:59.997000000",
+        "85DD12FF-1A7C-4074-A878-082380183BA2",
+        "1"
+      ]
+    },
+    "column9": {
+      "type": "string",
+      "unique_values": 13,
+      "null_count": 0,
+      "sample_values": [
+        "00F31A87-EC8B-4AD3-AB77-2CD59E23FA01",
+        "2020-04-07 11:38:46.800000000",
+        "9999-12-31 23:59:59.997000000",
+        "85DD12FF-1A7C-4074-A878-082380183BA2",
+        "1"
+      ]
+    },
+    "column10": {
+      "type": "string",
+      "unique_values": 15,
+      "null_count": 0,
+      "sample_values": [
+        "00F8F125-BAF4-472D-9C48-6AC9068CC1B0",
+        "2019-09-26 15:02:22.243000000",
+        "9999-12-31 23:59:59.997000000",
+        "85DD12FF-1A7C-4074-A878-082380183BA2",
+        "1"
+      ]
+    },
+    "column11": {
+      "type": "string",
+      "unique_values": 16,
+      "null_count": 0,
+      "sample_values": [
+        "012A24D0-3208-46B2-96B1-23F661400B24",
+        "2019-02-07 17:29:01.270000000",
+        "9999-12-31 23:59:59.997000000",
+        "85DD12FF-1A7C-4074-A878-082380183BA2",
+        "1"
+      ]
+    }
+  }
+}

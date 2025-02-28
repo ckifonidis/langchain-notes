@@ -1,0 +1,103 @@
+{
+  "sheet_name": "remittance_online_stream",
+  "row_count": 179,
+  "column_count": 8,
+  "columns": {
+    "Order": {
+      "type": "integer",
+      "unique_values": 179,
+      "null_count": 0,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    "Name": {
+      "type": "string",
+      "unique_values": 179,
+      "null_count": 0,
+      "sample_values": [
+        "id",
+        "branch",
+        "aterm_id",
+        "wsid",
+        "trdate"
+      ]
+    },
+    "Type": {
+      "type": "string",
+      "unique_values": 1,
+      "null_count": 0,
+      "sample_values": [
+        "string",
+        "string",
+        "string",
+        "string",
+        "string"
+      ]
+    },
+    "Description_in_English": {
+      "type": "datetime",
+      "unique_values": 1,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "Description_in_Greek": {
+      "type": "string",
+      "unique_values": 139,
+      "null_count": 0,
+      "sample_values": [
+        "BIG DATA id of the transaction",
+        "Κωδικός καναλιού από το οποίο πραγματοποιήθηκε η συναλλαγή.",
+        "Αριθμός Τερματικού. \nΔιαφορετική τιμή ανάλογα με την τιμή του πεδίου πεδίο BRANCH.",
+        "Κωδικός Workstation (αφορά μόνο το κατάστημα). \nΓια τα APS παίρνει την τιμή 1 (στο σύστημα πληρωμών) ή APSXXXXXXX.",
+        "Η ημερομηνία της συναλλαγής."
+      ]
+    },
+    "column6": {
+      "type": "string",
+      "unique_values": 4,
+      "null_count": 0,
+      "sample_values": [
+        "STDATA",
+        "STDATA",
+        "STDATA",
+        "STDATA",
+        "STDATA"
+      ]
+    },
+    "Values_in_Greek": {
+      "type": "datetime",
+      "unique_values": 7,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "602: MyBank\n603: Λοιπά Εναλλακτικά Δίκτυα ()\n620: MAT - Simple Pay Spot,\n632: APS,\n627: Simple Pay,\n700: Internet - Mobile και I-BANK Pay,\n701: ATM,\nΧΧΧ: 3-ψήφιος κωδικός καταστήματος",
+        "BRANCH = 603, τότε:\nATERM_ID = 60301: ΣΕΠΠΠ (Συνεταιρισμός Επαγγελματιών Πρακτόρων Παιχνιδιών Πρόγνωσης),\nATERM_ID = 60302: OTE,\nATERM_ID = 60309: i-bank pay (για πληρωμές οργανισμών)\nBRANCH = 632, τότε:\nATERM_ID : O μοναδικός κωδικός του APS,\nBRANCH = 700, τότε: \nATERM_ID = 7001: Internet Banking και Mobile Banking και i-bank pay (από το εναλλακτικό αυτό κανάλι διενεργούνται προς το παρόν μόνο μεταφορές εντός ΕΤΕ και εμβάσματα\nATERM_ID = 7004:\n\nATERM_ID = 7009: e-Kατασχετήρια.\nBRANCH = 701, τότε: \nATERM_ID: Ο μοναδικός κωδικός του ATM.",
+        "",
+        ""
+      ]
+    },
+    "comment": {
+      "type": "datetime",
+      "unique_values": 1,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    }
+  }
+}

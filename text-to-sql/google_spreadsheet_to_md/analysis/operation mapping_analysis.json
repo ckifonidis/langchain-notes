@@ -1,0 +1,79 @@
+{
+  "sheet_name": "operation mapping",
+  "row_count": 126,
+  "column_count": 6,
+  "columns": {
+    "operation_id": {
+      "type": "identifier",
+      "unique_values": 126,
+      "null_count": 0,
+      "sample_values": [
+        "83210",
+        "83951",
+        "83041",
+        "90102",
+        "40001"
+      ]
+    },
+    "count": {
+      "type": "string",
+      "unique_values": 126,
+      "null_count": 0,
+      "sample_values": [
+        "107.929.390,00",
+        "63.303.678,00",
+        "55.370.675,00",
+        "30.327.866,00",
+        "18.566.174,00"
+      ]
+    },
+    "operation_description": {
+      "type": "string",
+      "unique_values": 96,
+      "null_count": 0,
+      "sample_values": [
+        "Εκκαθάριση MC INCOMING SUSPENSE",
+        "ON US PURCHASE INCOMING SUSPENSE WAY4",
+        "Ανάληψη από ΑΤΜ ΕΤΕ",
+        "ΜΕΤΑΦ ΜΕΤΑΞΥ ΛΟΓ ΤΡΙΤΩΝ",
+        "ΕΚΚΑΘΑΡΙΣΗ ΣΥΝΑΛΛΑΓΩΝ ΚΑΡΤΩΝ/ΑΜΕΣΗ ΠΙΣΤΩΣΗ ΕΜΠΟΡΩΝ"
+      ]
+    },
+    "new_description": {
+      "type": "string",
+      "unique_values": 115,
+      "null_count": 0,
+      "sample_values": [
+        "Aγορά με χρήση χρεωστικής κάρτας",
+        "Aγορά με χρήση χρεωστικής κάρτας",
+        "Ανάληψη από ΑΤΜ ΕΤΕ",
+        "Μεταφορά σε λογαριασμό τρίτου",
+        "Πίστωση από εκκαθάριση καρτών"
+      ]
+    },
+    "comment": {
+      "type": "string",
+      "unique_values": 43,
+      "null_count": 0,
+      "sample_values": [
+        "το trt_reason έχει το όνομα του εμπόρου-routing type = Incoming",
+        "το trt_reason έχει το όνομα του εμπόρου -routing type= OnUs",
+        "",
+        "",
+        "αφορά έμπορο που έχει POS -reason code 60"
+      ]
+    },
+    "column6": {
+      "type": "datetime",
+      "unique_values": 2,
+      "null_count": 0,
+      "sample_values": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    }
+  }
+}
