@@ -1,21 +1,6 @@
-# Google Sheets to CSV Converter
+# Google Spreadsheet to Markdown Converter
 
-A Python utility that downloads data from Google Sheets and converts it to CSV files.
-
-## Features
-
-- Authenticates with Google Sheets API using OAuth2
-- Downloads all sheets from a specified Google Spreadsheet
-- Converts each sheet to a CSV file
-- Handles varying column counts and sheet structures
-- Provides detailed logging of the conversion process
-
-## Prerequisites
-
-- Python 3.9 or higher
-- Poetry for dependency management
-- Google Cloud Project with Sheets API enabled
-- Google OAuth2 credentials
+This tool downloads Google Spreadsheet data and analyzes its structure, particularly focusing on table descriptions.
 
 ## Setup
 
@@ -24,90 +9,43 @@ A Python utility that downloads data from Google Sheets and converts it to CSV f
 poetry install
 ```
 
-2. Set up Google Cloud credentials:
-   - Go to [Google Cloud Console](https://console.cloud.google.com)
-   - Create a new project or select an existing one
-   - Enable the Google Sheets API
-   - Create OAuth2 credentials:
-     * Go to "APIs & Services" > "Credentials"
-     * Click "Create Credentials" > "OAuth client ID"
-     * Choose "Desktop application" type
-     * Download the credentials and save as `credentials.json` in the project directory
-
-3. Create a `.env` file in the project directory:
+2. Create a `.env` file with your credentials:
 ```env
-SPREADSHEET_ID=your_spreadsheet_id_here
+SPREADSHEET_ID=your_default_spreadsheet_id
+OPENAI_API_KEY=your_openai_key  # If using OpenAI models
+ANTHROPIC_API_KEY=your_anthropic_key  # If using Anthropic models
+DEEPSEEK_API_KEY=your_deepseek_key  # If using Deepseek models
+
+# Model Configuration (optional)
+MODEL_TYPE=deepseek  # Options: openai, anthropic, deepseek
+MODEL_NAME=deepseek-coder  # Model-specific name (e.g., gpt-4 for OpenAI)
+MODEL_TEMPERATURE=0  # Temperature setting (0-1)
 ```
-The Spreadsheet ID can be found in your Google Sheets URL:
-`https://docs.google.com/spreadsheets/d/[SPREADSHEET_ID]/edit`
+
+3. Place your Google Sheets credentials in `credentials.json`
 
 ## Usage
 
-### 1. Download Sheets to CSV
-
-Run the main script to download Google Sheets data:
+The main script takes a spreadsheet ID as input and organizes all output files in a spreadsheet-specific directory:
 
 ```bash
-poetry run python main.py
+# Basic usage
+poetry run python main.py your_spreadsheet_id
+
+# Disable LLM analysis
+poetry run python main.py your_spreadsheet_id --no-llm
 ```
 
-The first time you run the script:
-1. It will prompt for Google OAuth2 authentication
-2. A browser window will open (or a URL will be provided)
-3. Login with your Google account and grant access
-4. The authentication token will be saved for future use
+### Output Structure
 
-The script will:
-- Download all sheets from the specified spreadsheet
-- Convert them to CSV files in the `output` directory
-- Provide detailed logging of the process
+All files are organized under `output/{spreadsheet_id}/`:
+- CSV files from the spreadsheet
+- Analysis files with `_analysis.txt` suffix
+- Any additional generated documentation
 
-### 2. Convert CSV to Markdown
+### Options
 
-After downloading the sheets to CSV, you can convert them to markdown format:
+- `spreadsheet_id`: (Required) The ID of the Google Spreadsheet to process
+- `--no-llm`: Disable LLM-based analysis
 
-```bash
-poetry run python csv_to_markdown.py
-```
-
-This script will:
-- Read all CSV files from the `output` directory
-- Convert each table to markdown format
-- Save the markdown files in a `markdown` directory
-- Each file will include a table header and formatted content
-
-## Output
-
-All CSV files are saved in the `output` directory. Each sheet from the Google Spreadsheet is converted to a separate CSV file, maintaining the original sheet name.
-
-## Notes
-
-- The script automatically handles sheets with varying column counts
-- Empty sheets are skipped
-- Column headers are preserved
-- Special characters in sheet names are maintained in the output files
-
-## File Structure
-
-```
-.
-├── main.py              # Main script
-├── csv_to_markdown.py   # CSV to Markdown converter
-├── credentials.json     # Google OAuth credentials (not in git)
-├── .env                # Environment variables (not in git)
-├── token.pickle        # Saved authentication token (not in git)
-├── output/            # Generated CSV files (not in git)
-├── markdown/          # Generated Markdown files (not in git)
-└── .gitignore         # Git ignore rules
-```
-
-## Error Handling
-
-The script includes comprehensive error handling for:
-- Authentication issues
-- Network connectivity problems
-- Invalid spreadsheet IDs
-- Permission issues
-- Malformed data
-
-If you encounter authentication errors, try removing the `token.pickle` file and running the script again to re-authenticate.
+Model configuration (temperature, model type, etc.) is handled through environment variables. See the Environment Variables section above.
