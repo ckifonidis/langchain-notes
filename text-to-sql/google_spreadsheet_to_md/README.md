@@ -1,23 +1,6 @@
-# Google Sheets to CSV Converter
+# Google Spreadsheet to Markdown Converter
 
-A Python utility that downloads data from Google Sheets, analyzes it, and converts it to CSV files.
-
-## Features
-
-- Authenticates with Google Sheets API using OAuth2
-- Downloads all sheets from a specified Google Spreadsheet
-- Analyzes sheet data for column types and patterns
-- Converts each sheet to a CSV file
-- Handles varying column counts and sheet structures
-- Provides detailed logging of the conversion process
-- Generates analysis reports for each sheet
-
-## Prerequisites
-
-- Python 3.9 or higher
-- Poetry for dependency management
-- Google Cloud Project with Sheets API enabled
-- Google OAuth2 credentials
+This tool downloads Google Spreadsheet data and analyzes its structure, particularly focusing on table descriptions.
 
 ## Setup
 
@@ -26,114 +9,45 @@ A Python utility that downloads data from Google Sheets, analyzes it, and conver
 poetry install
 ```
 
-2. Set up Google Cloud credentials:
-   - Go to [Google Cloud Console](https://console.cloud.google.com)
-   - Create a new project or select an existing one
-   - Enable the Google Sheets API
-   - Create OAuth2 credentials:
-     * Go to "APIs & Services" > "Credentials"
-     * Click "Create Credentials" > "OAuth client ID"
-     * Choose "Desktop application" type
-     * Download the credentials and save as `credentials.json` in the project directory
-
-3. Create a `.env` file in the project directory:
+2. Create a `.env` file with your credentials:
 ```env
-SPREADSHEET_ID=your_spreadsheet_id_here
-CREDENTIALS_PATH=credentials.json  # Optional, defaults to credentials.json
-OUTPUT_DIR=output  # Optional, defaults to output
-ANALYSIS_DIR=analysis  # Optional, defaults to analysis
-
-# CSV Export Options (Optional)
-CSV_ENCODING=utf-8
-CSV_DATE_FORMAT=%Y-%m-%d
-CSV_FLOAT_FORMAT=%.2f
-CSV_NA_REP=
+SPREADSHEET_ID=your_default_spreadsheet_id
+OPENAI_API_KEY=your_openai_key  # If using OpenAI models
+ANTHROPIC_API_KEY=your_anthropic_key  # If using Anthropic models
+DEEPSEEK_API_KEY=your_deepseek_key  # If using Deepseek models
 ```
 
-The Spreadsheet ID can be found in your Google Sheets URL:
-`https://docs.google.com/spreadsheets/d/[SPREADSHEET_ID]/edit`
+3. Place your Google Sheets credentials in `credentials.json`
 
 ## Usage
 
-### Process Google Sheets
-
-Run the main script to process Google Sheets data:
+The main script takes a spreadsheet ID as input and organizes all output files in a spreadsheet-specific directory:
 
 ```bash
-poetry run python main.py
+# Basic usage
+poetry run python main.py your_spreadsheet_id
+
+# Disable LLM analysis
+poetry run python main.py your_spreadsheet_id --no-llm
+
+# Use specific model
+poetry run python main.py your_spreadsheet_id --model-type openai --model-name gpt-4
+
+# Adjust model temperature
+poetry run python main.py your_spreadsheet_id --temperature 0.7
 ```
 
-The first time you run the script:
-1. It will prompt for Google OAuth2 authentication
-2. A browser window will open (or a URL will be provided)
-3. Login with your Google account and grant access
-4. The authentication token will be saved for future use
+### Output Structure
 
-The script will:
-- Download all sheets from the specified spreadsheet
-- Analyze the data in each sheet
-- Convert sheets to CSV files in the `output` directory
-- Save analysis reports in the `analysis` directory
-- Provide detailed logging of the process
+All files are organized under `output/{spreadsheet_id}/`:
+- CSV files from the spreadsheet
+- Analysis files with `_analysis.txt` suffix
+- Any additional generated documentation
 
-## Output
+### Options
 
-The script generates two types of output:
-
-1. CSV files in the `output` directory:
-   - One file per sheet from the Google Spreadsheet
-   - Maintains original sheet names
-   - Preserves data formatting
-
-2. Analysis files in the `analysis` directory:
-   - JSON files containing analysis of each sheet
-   - Includes column types, unique values, null counts
-   - Provides sample values for each column
-
-## Project Structure
-
-```
-.
-├── main.py                  # Main entry point
-├── sheets/                  # Core package
-│   ├── __init__.py         # Package exports
-│   ├── config.py           # Configuration management
-│   ├── google_client.py    # Google Sheets API client
-│   ├── data_processor.py   # Data processing and analysis
-│   ├── file_manager.py     # File operations
-│   └── sheet_processor.py  # Main processor class
-├── credentials.json        # Google OAuth credentials (not in git)
-├── .env                   # Environment variables (not in git)
-├── token.pickle          # Saved authentication token (not in git)
-├── output/              # Generated CSV files (not in git)
-└── analysis/           # Analysis reports (not in git)
-```
-
-## Error Handling
-
-The script includes comprehensive error handling for:
-- Authentication issues
-- Network connectivity problems
-- Invalid spreadsheet IDs
-- Permission issues
-- Malformed data
-- Data processing errors
-
-If you encounter authentication errors, try removing the `token.pickle` file and running the script again to re-authenticate.
-
-## Analysis Reports
-
-Each sheet generates an analysis report containing:
-- Row and column counts
-- Column information:
-  * Inferred data type
-  * Number of unique values
-  * Number of null values
-  * Sample values
-- Sheet-specific metadata
-
-These reports can be used to:
-- Understand data structure
-- Identify patterns
-- Detect data quality issues
-- Plan data transformations
+- `spreadsheet_id`: (Required) The ID of the Google Spreadsheet to process
+- `--no-llm`: Disable LLM-based analysis
+- `--model-type`: Type of model to use (openai, anthropic, or deepseek)
+- `--model-name`: Specific model name (default: deepseek-coder)
+- `--temperature`: Model temperature (0-1, default: 0)

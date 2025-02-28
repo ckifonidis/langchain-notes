@@ -15,7 +15,7 @@ class SheetProcessor:
         self.config = config or Config()
         self.google_client = GoogleSheetsClient(self.config.credentials_path)
         self.data_processor = SheetDataProcessor()
-        self.file_manager = FileManager(base_dir='.')
+        self.file_manager = FileManager(base_dir='.', output_dir=self.config.output_dir)
     
     def process_spreadsheet(self) -> Dict[str, Dict[str, Any]]:
         """

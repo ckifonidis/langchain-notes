@@ -25,10 +25,11 @@ logger = logging.getLogger(__name__)
 class FileManager:
     """Handles file operations for the sheet processor."""
     
-    def __init__(self, base_dir: str = '.'):
+    def __init__(self, base_dir: str = '.', output_dir: str = None):
         self.base_dir = base_dir
-        self.output_dir = os.path.join(base_dir, 'output')
-        self.analysis_dir = os.path.join(base_dir, 'analysis')
+        self.output_dir = output_dir or os.path.join(base_dir, 'output')
+        # Place analysis directory under the output directory
+        self.analysis_dir = os.path.join(self.output_dir, 'analysis')
         
         # Create directories
         os.makedirs(self.output_dir, exist_ok=True)

@@ -23,30 +23,39 @@ import pandas as pd
 from typing import Dict, Any, List, Optional, Tuple
 import time
 import json
-import openai
 from dotenv import load_dotenv
+from langchain.schema import HumanMessage, SystemMessage
+from model_selector import ModelType, OpenAIModels, DeepseekModels, use_model
 
 # Load environment variables from .env file
 load_dotenv()
-
-# Set up OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
 
 class TableDescriptionAnalyzer:
     """
     Class to analyze CSV files and identify Tables Description files.
     """
     
-    def __init__(self, output_dir: str = "output", use_llm: bool = True):
+    def __init__(self,
+                 output_dir: str = "output",
+                 use_llm: bool = True,
+                 model_type: ModelType = ModelType.DEEPSEEK,
+                 model_name: Optional[str] = DeepseekModels.CODER,
+                 temperature: float = 0):
         """
-        Initialize the analyzer with the output directory path.
+        Initialize the analyzer with the output directory path and model settings.
         
         Args:
             output_dir: Path to the directory containing CSV files and where analysis files will be saved
             use_llm: Whether to use LLM-based analysis to help determine CSV type
+            model_type: Type of model to use (OPENAI, ANTHROPIC, etc.)
+            model_name: Specific model name to use (defaults to each provider's default model)
+            temperature: Model temperature setting (0 for most deterministic output)
         """
         self.output_dir = output_dir
         self.use_llm = use_llm
+        self.model_type = model_type
+        self.model_name = model_name
+        self.temperature = temperature
     
     def get_csv_files(self) -> List[str]:
         """
@@ -224,22 +233,24 @@ class TableDescriptionAnalyzer:
         Then conclude with a final determination of the CSV type.
         """
         
-        # Create OpenAI client
-        client = openai.OpenAI()
-        
-        # Call the OpenAI API
-        response = client.chat.completions.create(
-            model="gpt-4-turbo-preview",
-            messages=[
-                {"role": "system", "content": "You are an expert data analyst specializing in database structures."},
-                {"role": "user", "content": prompt}
-            ],
-            max_tokens=1000,
-            temperature=0
+        # Create chat model using instance configuration
+        chat_model = use_model(
+            model_type=self.model_type,
+            model_name=self.model_name,
+            temperature=self.temperature
         )
         
+        # Format messages for langchain
+        messages = [
+            SystemMessage(content="You are an expert data analyst specializing in database structures."),
+            HumanMessage(content=prompt)
+        ]
+        
+        # Get response from the model
+        response = chat_model.invoke(messages)
+        
         # Extract the LLM's response
-        llm_response = response.choices[0].message.content.strip()
+        llm_response = response.content.strip()
         
         # Determine the type based on the LLM's response
         llm_type = "UNKNOWN"
@@ -589,39 +600,35 @@ class TableDescriptionAnalyzer:
             else:
                 return "UNKNOWN"
     
-    def is_tables_description(self, analysis_result: Dict[str, Any]) -> bool:
+    def get_file_type(self, analysis_result: Dict[str, Any]) -> str:
         """
-        Determine if a CSV file is a Tables Description based primarily on LLM analysis results.
+        Determine the type of CSV file based on LLM analysis results.
         Falls back to rule-based scoring only if LLM is uncertain.
         
         Args:
             analysis_result: Dictionary containing analysis results
             
         Returns:
-            True if the CSV is a Tables Description, False otherwise
+            String indicating the file type: 'TABLE_DESCRIPTION', 'DATABASE_DESCRIPTION', 'SAMPLE_DATA', or 'OTHER'
         """
         if "error" in analysis_result:
-            return False
+            return "OTHER"
         
         # Get LLM analysis and rule-based analysis
         llm_analysis = analysis_result.get("llm_analysis", {})
         rule_based_type = analysis_result.get("likely_type", "")
         analysis = analysis_result.get("analysis", {})
         table_score = analysis.get("table_description_score", 0)
+        db_score = analysis.get("database_description_score", 0)
         
         # If LLM analysis is available, prioritize its decision
         if llm_analysis and "type" in llm_analysis:
             llm_type = llm_analysis.get("type", "")
             
-            # If LLM confidently identifies as TABLE_DESCRIPTION
-            if llm_type == "TABLE_DESCRIPTION":
-                print(f"LLM identified as Tables Description")
-                return True
-            
-            # If LLM confidently identifies as NOT TABLE_DESCRIPTION
-            if llm_type in ["DATABASE_DESCRIPTION", "SAMPLE_DATA", "OTHER"]:
-                print(f"LLM identified as {llm_type}, not a Tables Description")
-                return False
+            # If LLM confidently identifies the type
+            if llm_type in ["TABLE_DESCRIPTION", "DATABASE_DESCRIPTION", "SAMPLE_DATA", "OTHER"]:
+                print(f"LLM identified as {llm_type}")
+                return llm_type
             
             # If LLM type is UNKNOWN or not clearly identified, it's uncertain
             print(f"LLM analysis uncertain, falling back to rule-based scoring")
@@ -630,13 +637,17 @@ class TableDescriptionAnalyzer:
         
         # Fall back to rule-based analysis only if LLM is uncertain or not available
         if "TABLE_DESCRIPTION" in rule_based_type:
-            return True
+            return "TABLE_DESCRIPTION"
+        elif "DATABASE_DESCRIPTION" in rule_based_type:
+            return "DATABASE_DESCRIPTION"
             
-        # Check table description score
+        # Check scores
         if table_score >= 5:  # If score is high enough, consider it a table description
-            return True
+            return "TABLE_DESCRIPTION"
+        elif db_score >= 5:  # If score is high enough, consider it a database description
+            return "DATABASE_DESCRIPTION"
             
-        return False
+        return "OTHER"
     
     def extract_table_info(self, df: pd.DataFrame) -> Tuple[Optional[str], List[Dict[str, Any]]]:
         """
@@ -679,9 +690,9 @@ class TableDescriptionAnalyzer:
         
         return table_name, columns_info
     
-    def process_tables_description(self, csv_filename: str, analysis_result: Dict[str, Any]) -> Optional[str]:
+    def process_table_columns_description(self, csv_filename: str, analysis_result: Dict[str, Any]) -> Optional[str]:
         """
-        Process a Tables Description CSV file and generate analysis text.
+        Process a table columns description CSV file (where each row describes a column) and generate analysis text.
         
         Args:
             csv_filename: Name of the CSV file to process
@@ -790,6 +801,97 @@ class TableDescriptionAnalyzer:
             
         print(f"Analysis saved to {output_path}")
     
+    def process_database_description(self, csv_filename: str, analysis_result: Dict[str, Any]) -> Optional[str]:
+        """
+        Process a database description CSV file (where each row describes a table) and generate analysis text.
+        
+        Args:
+            csv_filename: Name of the CSV file to process
+            analysis_result: Dictionary containing analysis results
+            
+        Returns:
+            Analysis text or None if processing failed
+        """
+        try:
+            # Read the CSV file
+            csv_path = os.path.join(self.output_dir, csv_filename)
+            df = pd.read_csv(csv_path)
+            
+            # Generate analysis text
+            analysis_text = f"Analysis of {csv_filename}\n"
+            analysis_text += "=" * (len(analysis_text) - 1) + "\n\n"
+            
+            # Basic file information
+            analysis_text += f"File Type: Database Description\n"
+            analysis_text += f"Number of Columns in CSV: {len(df.columns)}\n"
+            analysis_text += f"Number of Rows in CSV: {len(df)}\n\n"
+            
+            # Explanation of database description structure
+            analysis_text += "Structure Explanation:\n"
+            analysis_text += "-" * 20 + "\n"
+            analysis_text += "This is a Database Description file where:\n"
+            analysis_text += "- Each ROW describes a TABLE in the database\n"
+            analysis_text += "- Each COLUMN describes table-level properties\n"
+            analysis_text += "- The CSV column headers indicate what information is provided about each table\n\n"
+            
+            # CSV Column Headers
+            analysis_text += "CSV Column Headers (Information Types):\n"
+            analysis_text += "-" * 20 + "\n"
+            for col in df.columns:
+                analysis_text += f"- {col}\n"
+            analysis_text += "\n"
+            
+            # Tables Information
+            analysis_text += "Tables Information:\n"
+            analysis_text += "-" * 20 + "\n"
+            
+            # Find table name column (using the Big_Data_Table column or similar)
+            table_name_indicators = ['table', 'table_name', 'tablename', 'big_data_table']
+            table_name_col = next(
+                (col for col in df.columns if any(ind in col.lower() for ind in table_name_indicators)),
+                df.columns[0]  # Fallback to first column if no obvious table name column
+            )
+            
+            # Process each table
+            for i, row in df.iterrows():
+                table_name = row[table_name_col]
+                analysis_text += f"Table {i+1}: {table_name}\n"
+                
+                # Add other information about the table
+                for col in df.columns:
+                    if col != table_name_col and pd.notna(row[col]):
+                        analysis_text += f"  {col}: {row[col]}\n"
+                
+                analysis_text += "\n"
+            
+            # Analysis details
+            analysis_text += "Analysis Details:\n"
+            analysis_text += "-" * 20 + "\n"
+            
+            # Add analysis reasons
+            analysis = analysis_result.get("analysis", {})
+            
+            if "database_description_reasons" in analysis:
+                analysis_text += "Database Description Indicators:\n"
+                for reason in analysis["database_description_reasons"]:
+                    analysis_text += f"  - {reason}\n"
+                analysis_text += "\n"
+            
+            # Add LLM analysis if available
+            llm_analysis = analysis_result.get("llm_analysis", {})
+            if llm_analysis and "response" in llm_analysis:
+                analysis_text += "LLM Analysis:\n"
+                analysis_text += "-" * 20 + "\n"
+                analysis_text += f"Type determined by LLM: {llm_analysis.get('type', 'UNKNOWN')}\n\n"
+                analysis_text += "LLM Reasoning:\n"
+                analysis_text += f"{llm_analysis['response']}\n\n"
+            
+            return analysis_text
+            
+        except Exception as e:
+            print(f"Error processing {csv_filename}: {str(e)}")
+            return None
+
     def process_all_files(self) -> None:
         """
         Process all CSV files in the output directory.
@@ -803,6 +905,7 @@ class TableDescriptionAnalyzer:
         print(f"Found {len(csv_files)} CSV files in the output directory.")
         
         tables_description_count = 0
+        database_description_count = 0
         processed_count = 0
         skipped_count = 0
         error_count = 0
@@ -815,25 +918,33 @@ class TableDescriptionAnalyzer:
             try:
                 # Analyze the CSV file
                 analysis_result = self.analyze_csv(csv_file)
+                file_type = self.get_file_type(analysis_result)
                 
-                # Check if it's a Tables Description
-                if self.is_tables_description(analysis_result):
-                    print(f"{csv_file} is a Tables Description. Processing...")
+                analysis_text = None
+                
+                # Process based on file type
+                if file_type == "TABLE_DESCRIPTION":
+                    print(f"{csv_file} is a Table Columns Description. Processing...")
                     tables_description_count += 1
+                    analysis_text = self.process_table_columns_description(csv_file, analysis_result)
                     
-                    # Process the Tables Description
-                    analysis_text = self.process_tables_description(csv_file, analysis_result)
+                elif file_type == "DATABASE_DESCRIPTION":
+                    print(f"{csv_file} is a Database Description. Processing...")
+                    database_description_count += 1
+                    analysis_text = self.process_database_description(csv_file, analysis_result)
                     
-                    if analysis_text:
-                        # Save the analysis
-                        self.save_analysis(csv_file, analysis_text)
-                        processed_count += 1
-                    else:
-                        print(f"Failed to process {csv_file}.")
-                        error_count += 1
+                if analysis_text:
+                    # Save the analysis
+                    self.save_analysis(csv_file, analysis_text)
+                    processed_count += 1
                 else:
-                    print(f"{csv_file} is not a Tables Description. Skipping.")
+                    print(f"Failed to process {csv_file}.")
+                    error_count += 1
+                    
+                if file_type in ["SAMPLE_DATA", "OTHER"]:
+                    print(f"{csv_file} is {file_type}. Skipping.")
                     skipped_count += 1
+                    
             except Exception as e:
                 print(f"Error processing {csv_file}: {str(e)}")
                 error_count += 1
@@ -841,9 +952,10 @@ class TableDescriptionAnalyzer:
         elapsed_time = time.time() - start_time
         
         print(f"\nProcessing complete in {elapsed_time:.2f} seconds.")
-        print(f"Found {tables_description_count} Tables Description files.")
+        print(f"Found {tables_description_count} Table Columns Description files.")
+        print(f"Found {database_description_count} Database Description files.")
         print(f"Successfully processed: {processed_count}")
-        print(f"Skipped (not Tables Description): {skipped_count}")
+        print(f"Skipped (Sample Data or Other): {skipped_count}")
         print(f"Errors: {error_count}")
 
 def main():
@@ -855,13 +967,30 @@ def main():
     # Parse command line arguments
     parser = argparse.ArgumentParser(description='Analyze CSV files and identify Tables Description files.')
     parser.add_argument('--no-llm', action='store_true', help='Disable LLM-based analysis')
-    parser.add_argument('--output-dir', type=str, default='output', help='Directory containing CSV files and where analysis files will be saved')
+    parser.add_argument('--output-dir', type=str, default='output',
+                       help='Directory containing CSV files and where analysis files will be saved')
+    parser.add_argument('--model-type', type=str, choices=['openai', 'anthropic', 'deepseek'],
+                       default='deepseek', help='Type of model to use')
+    parser.add_argument('--model-name', type=str,
+                       help='Specific model name (default: deepseek-coder)')
+    parser.add_argument('--temperature', type=float, default=0,
+                       help='Model temperature (0-1, default: 0)')
     args = parser.parse_args()
+    
+    # Map model type string to enum
+    model_type_map = {
+        'openai': ModelType.OPENAI,
+        'anthropic': ModelType.ANTHROPIC,
+        'deepseek': ModelType.DEEPSEEK
+    }
     
     # Create analyzer with specified options
     analyzer = TableDescriptionAnalyzer(
         output_dir=args.output_dir,
-        use_llm=not args.no_llm
+        use_llm=not args.no_llm,
+        model_type=model_type_map[args.model_type],
+        model_name=args.model_name,
+        temperature=args.temperature
     )
     
     # Process all files
