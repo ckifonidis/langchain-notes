@@ -19,7 +19,7 @@ def is_table_description(text_analysis: str) -> bool:
     return ("Type determined by LLM: TABLE_DESCRIPTION" in text_analysis) and \
            ("File Type: Tables Description" in text_analysis)
 
-def create_llm_prompt(json_analysis: Dict[str, Any], text_analysis: str) -> str:
+def create_llm_prompt(json_analysis: Dict[str, Any], text_analysis: str, output_dir: str) -> str:
     """Create a prompt for the LLM to generate markdown documentation.
 
     Args:
@@ -29,10 +29,43 @@ def create_llm_prompt(json_analysis: Dict[str, Any], text_analysis: str) -> str:
     Returns:
         String containing the prompt for the LLM
     """
-    # Extract table name from JSON
+    # Get table name and load metadata
     table_name = json_analysis.get('sheet_name', '')
+    
+    # Load metadata from the output directory
+    metadata_path = os.path.join(output_dir, 'metadata.json')
+    spreadsheet_title = ''
+    try:
+        with open(metadata_path, 'r', encoding='utf-8') as f:
+            metadata = json.load(f)
+            spreadsheet_title = metadata.get('spreadsheet_title', '')
+    except Exception as e:
+        logger.warning(f"Could not load metadata: {str(e)}")
 
     return f"""You are a technical documentation expert. Generate a markdown (.md) documentation for a database table analyzing both the structured (JSON) and textual analysis provided.
+
+SPREADSHEET INFORMATION:
+----------------------
+Full Title: {spreadsheet_title}
+
+DATABASE NAME EXTRACTION:
+----------------------
+Extract the database name from the spreadsheet title using these rules in order:
+1. If title matches pattern "BIG DATA <name> catalog":
+   - Use <name> as the database name
+2. If title contains both "BIG DATA" and "catalog":
+   - Extract text between these markers as database name
+3. If neither pattern matches:
+   - Remove common words like "data", "catalog", "big"
+   - Use the most specific remaining noun
+4. Convert final name to lowercase
+
+Example patterns:
+- "BIG DATA bank catalog" -> database: "bank"
+- "BIG DATA hr system catalog" -> database: "hr"
+- "customer data catalog" -> database: "customer"
+
+Use the extracted database name as the main heading (# Database) in your documentation.
 
 INPUT INFORMATION:
 ----------------
@@ -52,6 +85,16 @@ Generate a clear and comprehensive markdown documentation that includes:
    - Column Name: The name of the column as used in the database
    - Column Type: The data type of the column
    - Column Description: A clear description of what the column represents
+   - Column Notes: A natural language paragraph containing:
+     * Valid values and constraints from the Values field
+     * Business rules and conditions from Description fields
+     * Dependencies and relationships with other columns
+     * System context (stdata/idata/odata) and special handling
+     * Any additional relevant information in flowing text
+     * Written for vector database analysis and semantic search
+
+Example Column Note:
+"This field accepts branch codes like 602 (MyBank) and 603 (Alternative Networks). Used in stdata context and affects terminal ID validation. When branch is 603, terminal IDs have specific meanings: 60301 for ΣΕΠΠΠ, 60302 for OTE. Required for all transactions with validation rules varying by channel. Part of core branch identification system with direct impact on transaction processing and routing."
 
 DOCUMENTATION GUIDELINES:
 ----------------------
@@ -164,7 +207,7 @@ def process_analysis_files(json_path: str, text_path: str, output_dir: str) -> N
             json_analysis = json.load(f)
 
         # Create prompt for LLM
-        prompt = create_llm_prompt(json_analysis, text_analysis)
+        prompt = create_llm_prompt(json_analysis, text_analysis, output_dir)
 
         # Get markdown from LLM
         markdown_content = get_llm_response(prompt)

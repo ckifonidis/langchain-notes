@@ -110,11 +110,11 @@ def main():
 
         # Step 1: Download and process spreadsheet
         logger.info("\nStep 1: Downloading spreadsheet...")
-        analyses = download_spreadsheet(args.spreadsheet_id, output_dir)
+        #analyses = download_spreadsheet(args.spreadsheet_id, output_dir)
 
         # Step 2: Analyze generated CSV files
         logger.info("\nStep 2: Analyzing CSV files...")
-        analyze_csv_files(output_dir, use_llm=not args.no_llm)
+        #analyze_csv_files(output_dir, use_llm=not args.no_llm)
 
         # Step 3: Generate markdown documentation
         if not args.no_llm:
