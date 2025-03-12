@@ -3,7 +3,8 @@ Module for coordinating file processing and analysis.
 """
 
 import time
-from typing import Dict, Any, Optional
+import os
+from typing import Dict, Any, Optional, Tuple
 import pandas as pd
 from langchain.chat_models.base import BaseChatModel
 
@@ -12,6 +13,7 @@ from ..csv_analysis import analyze_structure, determine_likely_type
 from ..llm_analyzer import analyze_with_llm
 from .table_processor import process_table_description
 from .database_processor import process_database_description
+from .table_metadata_processor import TableMetadataProcessor
 
 class FileProcessor:
     """Class for processing multiple CSV files and coordinating analysis."""
@@ -34,6 +36,8 @@ class FileProcessor:
         self.output_dir = output_dir
         self.use_llm = use_llm
         self.chat_model = chat_model
+        if use_llm:
+            self.metadata_processor = TableMetadataProcessor(chat_model)
 
     def process_all_files(self) -> None:
         """Process all CSV files in the output directory."""
@@ -44,6 +48,14 @@ class FileProcessor:
             return
             
         print(f"Found {len(csv_files)} CSV files in the output directory.")
+        
+        # First process tables_description if it exists
+        tables_metadata = None
+        if "tables description.csv" in csv_files:
+            print("\nProcessing tables description file...")
+            tables_metadata = self._process_tables_description()
+            # Remove from list to avoid processing again
+            csv_files.remove("tables description.csv")
         
         tables_description_count = 0
         database_description_count = 0
@@ -69,6 +81,20 @@ class FileProcessor:
                     tables_description_count += 1
                     df = read_csv_file(self.output_dir, csv_file)
                     analysis_text = process_table_description(df, csv_file, analysis_result)
+                    
+                    # Generate markdown if LLM is enabled
+                    if self.use_llm:
+                        try:
+                            markdown_content = self.metadata_processor.enrich_table_documentation(
+                                table_name=csv_file.replace(".csv", ""),
+                                column_info=analysis_result,
+                                metadata_text=tables_metadata
+                            )
+                            markdown_path = os.path.join(self.output_dir, f"{csv_file.replace('.csv', '')}.md")
+                            with open(markdown_path, 'w', encoding='utf-8') as f:
+                                f.write(markdown_content)
+                        except Exception as e:
+                            print(f"Error generating markdown for {csv_file}: {str(e)}")
                     
                 elif file_type == "DATABASE_DESCRIPTION":
                     print(f"{csv_file} is a Database Description. Processing...")
@@ -100,6 +126,26 @@ class FileProcessor:
         print(f"Successfully processed: {processed_count}")
         print(f"Skipped (Sample Data or Other): {skipped_count}")
         print(f"Errors: {error_count}")
+
+    def _process_tables_description(self) -> Optional[str]:
+        """Process the tables_description.csv file and return metadata analysis."""
+        try:
+            if not self.use_llm:
+                return None
+                
+            df = read_csv_file(self.output_dir, "tables description.csv")
+            metadata_text = self.metadata_processor.analyze_tables_description(df)
+            
+            # Save metadata analysis
+            metadata_path = os.path.join(self.output_dir, "tables_metadata_analysis.txt")
+            with open(metadata_path, 'w', encoding='utf-8') as f:
+                f.write(metadata_text)
+                
+            return metadata_text
+            
+        except Exception as e:
+            print(f"Error processing tables description: {str(e)}")
+            return None
 
     def analyze_csv(self, csv_filename: str) -> Dict[str, Any]:
         """

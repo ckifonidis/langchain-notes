@@ -81,14 +81,23 @@ def extract_table_info(df: pd.DataFrame) -> tuple[Optional[str], List[Dict[str, 
 
 def read_csv_file(output_dir: str, csv_filename: str) -> pd.DataFrame:
     """
-    Read a CSV file from the specified directory.
+    Read a CSV file from the specified directory and clean it up.
     
     Args:
         output_dir: Directory containing the CSV file
         csv_filename: Name of the CSV file
     
     Returns:
-        DataFrame containing the CSV data
+        DataFrame containing the cleaned CSV data
     """
     csv_path = os.path.join(output_dir, csv_filename)
-    return pd.read_csv(csv_path)
+    # Read CSV
+    df = pd.read_csv(csv_path)
+    
+    # Drop rows where all columns are empty or NaN
+    df = df.dropna(how='all')
+    
+    # Reset index after dropping rows
+    df = df.reset_index(drop=True)
+    
+    return df

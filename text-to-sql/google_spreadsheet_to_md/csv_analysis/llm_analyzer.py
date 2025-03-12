@@ -9,6 +9,29 @@ from langchain.chat_models.base import BaseChatModel
 from .column_analyzer import analyze_column_names
 from .csv_analysis import analyze_structure
 
+def extract_type_from_response(response: str) -> str:
+    """
+    Extract the file type from LLM response by looking for the specific bold type declaration.
+    
+    Args:
+        response: LLM's response text
+        
+    Returns:
+        Detected file type or "UNKNOWN"
+    """
+    # Look for the exact bold type declaration format at the end
+    lines = response.split('\n')
+    for line in reversed(lines):  # Check from end to start
+        if line.strip() == "**Type: TABLE_DESCRIPTION**":
+            return "TABLE_DESCRIPTION"
+        if line.strip() == "**Type: DATABASE_DESCRIPTION**":
+            return "DATABASE_DESCRIPTION"
+        if line.strip() == "**Type: SAMPLE_DATA**":
+            return "SAMPLE_DATA"
+        if line.strip() == "**Type: OTHER**":
+            return "OTHER"
+    return "UNKNOWN"
+
 def analyze_with_llm(
     df: pd.DataFrame,
     csv_filename: str,
@@ -137,7 +160,14 @@ def analyze_with_llm(
     3. Agreement or disagreement with the programmatic analysis
     4. Whether the rows represent metadata (about columns/tables) or actual data records
     
-    Then conclude with a final determination of the CSV type.
+    Finally, end your response with exactly one type declaration in this format:
+    **Type: TABLE_DESCRIPTION**
+    or
+    **Type: DATABASE_DESCRIPTION**
+    or
+    **Type: SAMPLE_DATA**
+    or
+    **Type: OTHER**
     """
     
     # Format messages for langchain
@@ -152,16 +182,8 @@ def analyze_with_llm(
     # Extract the LLM's response
     llm_response = response.content.strip()
     
-    # Determine the type based on the LLM's response
-    llm_type = "UNKNOWN"
-    if "TABLE_DESCRIPTION" in llm_response.upper():
-        llm_type = "TABLE_DESCRIPTION"
-    elif "DATABASE_DESCRIPTION" in llm_response.upper():
-        llm_type = "DATABASE_DESCRIPTION"
-    elif "SAMPLE_DATA" in llm_response.upper():
-        llm_type = "SAMPLE_DATA"
-    elif "OTHER" in llm_response.upper():
-        llm_type = "OTHER"
+    # Extract type from response
+    llm_type = extract_type_from_response(llm_response)
     
     return {
         "response": llm_response,

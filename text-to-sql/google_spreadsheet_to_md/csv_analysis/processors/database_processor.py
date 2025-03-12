@@ -111,7 +111,7 @@ def generate_database_structure_explanation(
     if llm_analysis and "response" in llm_analysis:
         text += "LLM Analysis:\n"
         text += "-" * 20 + "\n"
-        text += f"Type determined by LLM: {llm_analysis.get('type', 'UNKNOWN')}\n\n"
+        text += "**Type: DATABASE_DESCRIPTION**\n\n"
         text += "LLM Reasoning:\n"
         text += f"{llm_analysis['response']}\n\n"
     

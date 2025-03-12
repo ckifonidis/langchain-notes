@@ -62,7 +62,7 @@ def analyze_csv_files(output_dir: str, use_llm: bool = True) -> None:
     if use_llm:
         # Use DeepSeek as default
         chat_model = use_model(
-            model_type=ModelType.DEEPSEEK,
+            model_type=ModelType.OPENAI,
             temperature=0
         )
 

@@ -14,7 +14,7 @@ class OpenAIModels:
     GPT_3_5 = "gpt-3.5-turbo"
     GPT_4 = "gpt-4"
     GPT_4_TURBO = "gpt-4-turbo-preview"
-    GPT_4O_MINI = "gpt-4o-mini"
+    GPT_4O_MINI = "gpt-4o-mini-2024-07-18"
 
 class DeepseekModels:
     CHAT = "deepseek-chat"
@@ -39,7 +39,7 @@ class ModelConfig:
 
 DEFAULT_CONFIGS = {
     ModelType.OPENAI: ModelConfig(
-        model_name=OpenAIModels.GPT_3_5
+        model_name=OpenAIModels.GPT_4O_MINI
     ),
     ModelType.DEEPSEEK: ModelConfig(
         model_name=DeepseekModels.CHAT,
